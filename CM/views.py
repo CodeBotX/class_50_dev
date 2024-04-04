@@ -164,11 +164,12 @@ def detail(request,classroom,student):
             return redirect('classroom', classroom=classroom)
     else:
         form = MarkForm(student=student, subject=subject) if subject else None
-
+    marks = student.marks.filter(student=student,subject=subject)
     context={
         'MarkForm': form,
         'student':student,
-        'subject':subject
+        'subject':subject,
+        'marks': marks
     }
     return render(request, 'details.html', context)
 
