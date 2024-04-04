@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Quản lý học sinh{% endblock title %}
+
+
+{% block content %}
+    
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">Thông báo</h4>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+            </div>
+    
+            <!-- Modal footer -->
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+    
+        </div>
+    </div>
+</div>
+
+<script>
+    // Kiểm tra xem có thông báo nào không
+    {% if messages %}
+    // Hiển thị modal nếu có
+    $(document).ready(function(){
+        $('#myModal').modal('show');
+    });
+    {% endif %}
+</script>
+
+<div class="row" style="margin-top: 6rem">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="card" style="background-color: #07478D">
+            <div class="card-body">
+                <h2 class="card-title text-white" style="margin-top: 2%;">Quản lý học sinh</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nhập thông tin</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Học sinh</th>
+                                <td>{{StudentForm.name }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ID</th>
+                                <td>{{StudentForm.id }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Lớp</th>
+                                <td>{{StudentForm.classroom }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button id="openModalBtn" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Thêm</button>
+                </form> 
+            </div>
+        </div>
+        <div class="card" style="background-color: #07478D; margin-top: 1rem">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3">
+                        <h2 class="card-title text-white" style="margin-top: 0%;">Danh sách lớp</h2>
+                        <div class="card" style="height: 12rem">
+                            <form method="POST">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Chọn lớp</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Lớp</th>
+                                            <td>
+                                                <select class="form-select text-center">
+                                                    {%for classroom in classrooms %} 
+                                                    <option value="{{ classroom }}">{{ classroom }}</option>
+                                                    {%endfor%}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <input type="hidden" id="selected_classroom" name="selected_classroom" value="">
+                                <button type="submit" class="btn btn-primary" style="transform: scale(1.0); width:80%;margin-left: auto; margin-right: auto; margin-top:1rem; display: block; font-size: 1em; border-radius: 5px; background-image: linear-gradient(to right, #126DBC, #8C52FF);border: none;">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <h2 class="card-title text-white" style="margin-top: 0%;">Danh sách học sinh</h2>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Họ tên</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {%for student in students %}
+                                <tr>
+                                    <td>{{student.id}}</td>
+                                    <td>{{student.name}}</td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="col-2"></div>   
+</div>
+
+
+{% endblock content %}

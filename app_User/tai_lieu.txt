@@ -1,0 +1,13 @@
+# Thiết lập trình quản lý người dùng tùy chỉnh "from django.contrib.auth.models import UserManager"
+
+BaseUserManager: là lớp cơ sở được cung cấp sẵn bởi django để quản lý, xác thực người dùng ( đăng nhập, đăng kí ....)
+UserManager: ....
+
+các phương thức có tên kiểu: _create_user (có dấu gạch dưới): đây là 1 dạng phương thức protected hoặc private
+nghĩa là không gọi pt này từ ngoài lớp, mà nên gọi bởi các lớp con 
+
+REQUIRED_FIELDS: được định nghĩa ở customuser, chứa list các trường mà manage.py createsuperuser sẽ yêu cầu người dùng nhập vào
+ngoại trừ tên đăng nhập và mật khẩu. Đây là một phần của cơ chế xác thực và quản lý người dùng trong Django, giúp đảm bảo rằng các trường dữ liệu quan trọng được cung cấp khi tạo một tài khoản quản trị mới.
+
+
+verbose_name: là một thuộc tính được sử dụng để cung cấp một tên mô tả dễ hiểu cho một trường hoặc một lớp mô hình

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Quản lý giáo viên{% endblock title %}
+
+
+{% comment %} 
+
+http://127.0.0.1:8000/signup/
+
+Sigin là để đăng kí giáo viên
+Để đăng nhập cần nhập 5 trường, email, id, first_name , last_name , password1 ,password2 (input)
+email: {{SignUpForm.email}}
+password: SignUpForm.password
+cấu trúc tương tự cho các trường còn lại
+
+Lưu ý: 
+1. phải đặt 2 trường này trong thẻ form, not table
+2. method như vd bên dưới đang sử dụng
+3. {% csrf_token %} nằm dưới thẻ form
+
+
+{% endcomment %}
+
+
+{% block content %}
+{% comment %} <h2>SignUp</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ signupForm.as_p }}
+    <button type="submit">Sign Up</button>
+</form> {% endcomment %}
+
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+  
+          <!-- Modal Header -->
+          <div class="modal-header">
+          <h4 class="modal-title">Thông báo</h4>
+          </div>
+  
+          <!-- Modal body -->
+          <div class="modal-body">
+              <ul class="messages">
+                  {% for message in messages %}
+                  <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+          </div>
+  
+          <!-- Modal footer -->
+          <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
+  
+      </div>
+  </div>
+</div>
+
+<script>
+  // Kiểm tra xem có thông báo nào không
+  {% if messages %}
+  // Hiển thị modal nếu có
+  $(document).ready(function(){
+      $('#myModal').modal('show');
+  });
+  {% endif %}
+</script>
+
+<div class="row" style="margin-top: 6rem">
+  <div class="col-2"></div>
+  <div class="col-8">
+      <div class="card" style="background-color: #07478D">
+          <div class="card-body">
+              <h2 class="card-title text-white" style="margin-top: 2%;">Thêm tài khoản giáo viên</h2>
+              <form method="POST">
+                  {% csrf_token %}
+                  <table class="table">
+                      <thead>
+                      <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Nhập thông tin</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <th scope="row">Email</th>
+                              <td>{{ signupForm.email }}</td>
+                          </tr>
+                          <tr>
+                              <th scope="row">ID</th>
+                              <td>{{ signupForm.id }}</td>
+                          </tr>
+                          <tr>
+                              <th scope="row">Họ</th>
+                              <td>{{ signupForm.first_name }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Tên</th>
+                            <td>{{ signupForm.last_name }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Mật khẩu</th>
+                            <td>{{ signupForm.password1 }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Nhập lại mật khẩu</th>
+                            <td>{{ signupForm.password2 }}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <button id="openModalBtn" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Thêm</button>
+              </form> 
+          </div>
+      </div>
+      <div class="card" style="background-color: #07478D; margin-top: 1rem">
+          <div class="card-body">
+              <h2 class="card-title text-white" style="margin-top: 0%;">Danh sách giáo viên</h2>
+              <form method="POST">
+                  <table class="table">
+                      <thead>
+                      <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Họ tên</th>
+                          <th scope="col">Email</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                              {%for teacher in teachers %}
+                              <tr>
+                                  <td >{{teacher.id}}</td>
+                                  <td>{{teacher.first_name}} {{teacher.last_name}}</td>
+                                  <td>{{teacher.email}}</td>
+                              </tr>
+                              {% endfor %}
+                      </tbody>
+                  </table>
+              </form>
+          </div>
+      </div>
+  </div> 
+  <div class="col-2"></div>   
+</div>
+
+{% endblock content %}

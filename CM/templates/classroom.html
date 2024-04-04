@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dạy học{% endblock title %}
+
+{% comment %} 
+
+Hiển thị sơ đồ lớp
+for hàng - for cột 
+add chỗi , đổi chỗ 
+nhập tên bài họ<!-- 
+đánh giá tiết học
+Tiết theo chương trình
+
+
+
+
+Hiển thị form đánh giá Tiết Học
+
+Hiển thị
+Tên lớp,tên môn , Tiết trong ngày
+
+{% endcomment %}
+
+
+{% block content %}
+
+  <div class="container-fluid" style="margin-top: 5%; ">
+    <div class="container-fluid row">
+      {% comment %} <div class="col-sm-1"></div> {% endcomment %}
+      <div class="col-8">
+        <div style="  margin-bottom: 10px" class="row">
+          <div class="container" style="margin-top: 10px">
+            <div class="row">
+              <div class="col">
+                <div class="container overflow-hidden">
+                  <div class="row">
+                    <div class="col-2">
+                      <div class="p-3 border bg-light text-center d-flex align-items-center justify-content-center font-weight-bold" style="border-radius: 10px; height: 4rem">{{ classroom.name }}</div>
+                    </div>
+                    <div class="col-5">
+                      <div class="p-3 border bg-light text-center d-flex align-items-center justify-content-center font-weight-bold" style="border-radius: 10px; height: 4rem">{{subject.name}}</div>
+                    </div>  
+                    <div class="col-3">
+                        <div class="p-3 border bg-light text-center d-flex align-items-center justify-content-center font-weight-bold" style="border-radius: 10px; height: 4rem">{{period}}</div>
+                      </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="card" style="margin-top: 2%; margin-bottom: 1%">
+          <div class="card-body">
+            <h5 class="card-title">Sơ Đồ Lớp</h5>
+            <div style="margin-top: 2% margin-bottom: 2%">
+            
+              <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>#</th><!-- Thẻ trống để chứa ký tự trắng cho góc trên bên trái -->
+                        {% for column in columns %}
+                        <th class="text-center">{{ column }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                    <tr>
+                        <th>{{ row }}</th><!-- Hiển thị số hàng ở cột đầu tiên của mỗi hàng -->
+                        {% for column in columns %}
+                        <td> 
+                          {% for seat in seats %}
+                              {% if seat.row == row and seat.column == column %}
+                                  {% if not seat.student %}
+                                    <div class="d-flex justify-content-center">
+                                      <button class="btn btn-danger text-white" style="width:100%">Trống</button>
+                                    </div>
+                                  
+
+                                  {% else %}
+                                  <div class="d-flex justify-content-center">
+                                    <a class="btn btn-primary text-white" href="{% url 'details' classroom.name seat.student.id %}" style="width:100%">{{ seat.student.name }}</a>
+                                  </div> 
+                                  {% endif %}
+                              {% endif %}
+                          {% endfor %}
+                        </td>
+
+                      
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+            </div> 
+          </div>
+
+        </div>
+          
+      </div>
+      <div class="col-4">
+        <div class="card" style="margin-top: 10px">
+          <div class="card-body d-flex justify-content-center align-items-center" style="height: 4rem">
+            <p class="display-6" id="clock"></p>
+          </div>
+        </div>
+  
+        <div class="card display-5" style="margin-top: 4%;margin-bottom:5%; background-color: #07478D">
+          <div class="card-body row" style="height: 5%">
+            <div class="col-12">
+              
+              <form method="POST" style="margin-bottom: 5%">
+                <h2 class="card-title text-white" style="margin-top: 2%;font-size:0.5em">Thông tin tiết học</h2>
+                {% csrf_token %}
+                <table class="table" method="post" style="font-size:0.35em; border-radius: 10px;">
+                  <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Thông tin</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+  
+                    <tr>
+                        <th scope="row">Tên bài học</th>
+                        <td>        
+                            {{form_addlesson.name }}
+                        </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Số tiết</th>
+                      <td>        
+                          {{form_addlesson.counter }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Nhận xét</th>
+                      <td>        
+                          {{form_addlesson.comment }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Đánh giá</th>
+                      <td>        
+                          {{form_addlesson.grade }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary" style="transform: scale(0.8); width:100%;margin-left: auto; margin-right: auto; display: block; font-size: 0.5em; border-radius: 20px; background-image: linear-gradient(to right, #126DBC, #8C52FF);border: none;">Submit</button>
+              </form>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+  
+          <!-- Modal Header -->
+          <div class="modal-header">
+          <h4 class="modal-title">Thông báo</h4>
+          </div>
+  
+          <!-- Modal body -->
+          <div class="modal-body">
+              <ul class="messages">
+                  {% for message in messages %}
+                  <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+          </div>
+  
+          <!-- Modal footer -->
+          <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
+  
+      </div>
+  </div>
+</div>
+
+<script>
+  // Kiểm tra xem có thông báo nào không
+  {% if messages %}
+  // Hiển thị modal nếu có
+  $(document).ready(function(){
+      $('#myModal').modal('show');
+  });
+  {% endif %}
+</script>
+<script src="{% static 'getrealtime.js' %}"></script>
+
+ {% endblock content %}
+{% comment %} 
+<a href="{% url 'student_detail' student.student_ID %}" 
+
+path('student/<int:student_ID>', views.student_detail, name='student_detail'),
+
+
+{% endcomment %}

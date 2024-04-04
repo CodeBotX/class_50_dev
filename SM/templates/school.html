@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Quản lý trường học{% endblock title %}
+
+
+{% block content %}
+{% comment %} <h1>Trang quản trị </h1>
+Lựa chọn quản lý
+<a href="{% url 'add_timetable' %}">Thời Khóa Biểu</a>
+
+<h1>Tạo Năm Học Mới</h1>
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p }}
+    <button type="submit">Lưu</button>
+</form> {% endcomment %}
+<div class="row" style="margin-left: 1%; margin-right: 1%">
+    <div class="col-3"></div>
+    {% comment %} Block Chọn Lớp Học {% endcomment %}
+    <div class="col-6" style="padding: 10px; margin-top: 5%">
+        <div class="card" style="height: 30rem; border-radius: 20px">
+            <div style="margin-top: 4%;margin-bottom :3% ; height:30%">
+                <div style="border-bottom: 2px solid #2385C4; ">
+                    <h4 class="card-title text-center font-weight-bold" style="margin-top: 0%; font-size:250%; margin-bottom: 4%; color: #11499C; ">QUẢN TRỊ TRƯỜNG HỌC</h4>
+                </div>
+                <form method="GET" class="content" style=" width: 90%; margin: 0 auto; text-align: center;">
+                    <div class="row" style="margin-top: 4rem">
+                        <div class="col-6" style="border-right: 1px solid #000">
+                            <a href="{% url 'smclassroom' %}" class="btn btn-primary" style="transform: scale(1.2); width: 70%;">Quản lý lớp học</a>
+                            <a href="{% url 'smsubject' %}" class="btn btn-primary" style="transform: scale(1.2); width: 70%; margin-top:3rem">Quản lý môn học</a>
+                            <a href="{% url 'SignUp' %}" class="btn btn-primary" style="transform: scale(1.2); width: 70%; margin-top:3rem">Quản lý giáo viên</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="{% url 'smstudent' %}" class="btn btn-primary" style="transform: scale(1.2); width: 70%">Quản lý học sinh</a>
+                            <a href="{% url 'smtimetable' %}" class="btn btn-primary" style="transform: scale(1.2); width: 70%; margin-top:3rem">Quản lý thời khoá biểu</a>
+                            <a href="{% url 'rankclassrooms' %}" class="btn btn-primary" style="transform: scale(1.2); width: 70%; margin-top:3rem">Xếp hạng lớp học</a>
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+
+        </div>
+    </div>
+    <div class="col-3"></div>
+</div>   
+{% endblock content %}
+
+{% comment %} 
+Add lớp hoc
+add môn họ<
+add teacher
+add student
+add time_table
+add năm họ<!-- 
+
+    add học kì
+ -->
+
+{% endcomment %}

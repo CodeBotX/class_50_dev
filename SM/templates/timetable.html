@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Quản lý thời khoá biểu{% endblock title %}
+
+
+
+{% block content %}
+{% comment %} <h1>Time Table</h1>
+    <h2>Add Lesson Time</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form_lessons.as_p }}
+        <button type="submit" name="action" value="lesson">Add Lesson Time</button>
+    </form>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h2>Add Schedule</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form_schedules.as_p }}
+        <button type="submit" name="action" value="schedule">Add Schedule</button>
+    </form>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %} {% endcomment %}
+{% comment %} khối modal message {% endcomment %}
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">Thông báo</h4>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+            </div>
+    
+            <!-- Modal footer -->
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+    
+        </div>
+    </div>
+</div>
+
+<script>
+    // Kiểm tra xem có thông báo nào không
+    {% if messages %}
+    // Hiển thị modal nếu có
+    $(document).ready(function(){
+        $('#myModal').modal('show');
+    });
+    {% endif %}
+</script>
+
+
+<div class="row" style="margin-top: 6rem">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="card" style="background-color: #07478D">
+            <div class="card-body">
+                <h2 class="card-title text-white" style="margin-top: 2%;">Xếp thời khoá biểu</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nhập thông tin</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Lớp</th>
+                                <td>{{form_schedules.classroom }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Ngày trong tuần</th>
+                                <td>{{form_schedules.dayofweek }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tiết</th>
+                                <td>{{form_schedules.period }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Môn</th>
+                                <td>{{form_schedules.subject }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button id="openModalBtn" name="action" value="schedule" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Thêm</button>
+                </form>
+            </div>
+        </div>
+        <div class="card" style="background-color: #07478D; margin-top: 1rem">
+            <div class="card-body">
+                <h2 class="card-title text-white" style="margin-top: 0%;">Danh sách thời khoá biểu</h2>
+                <form method="POST">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Học sinh</th>
+                            <th scope="col">Lớp</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                                {%for student in students %}
+                                <tr>
+                                    <td>{{student.id}}</td>
+                                    <td>{{student.name}}</td>
+                                    <td>{{student.classroom}}</td>
+                                </tr>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                    {% comment %} <button id="openModalBtn" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Thêm</button> {% endcomment %}
+                </form>
+            </div>
+        </div>
+    </div> 
+    <div class="col-2"></div>   
+</div>
+{% endblock content %}

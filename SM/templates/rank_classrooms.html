@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+{% block title %}Ranking{% endblock title %}
+
+
+
+{% block content %}
+
+<h1>Xếp hạng các lớp học</h1>
+
+<table>
+    <tr>
+        <th>Lớp học</th>
+        <th>Điểm trung bình</th>
+    </tr>
+    {% for classroom in ranked_classrooms %}
+    <tr>
+        <td>{{ classroom.classroom }}</td>
+        <td>{{ classroom.average_grade }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock content %}

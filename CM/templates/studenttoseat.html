@@ -1,0 +1,8 @@
+
+<br>
+<form method="post">
+    {% csrf_token %}
+    {{ form.seat }}
+    {{ assign_studentForm.student }}
+    <button type="submit">Xếp chỗ</button>
+</form>

@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Chi tiết{% endblock title %}
+
+{% comment %} 
+Tên học sinh 
+( ảnh của học sinh, nếu còn 2 ngày)
+Hiển thị điểm của học sinh thuộc môn học đang giảng dạy ( tất cả, không lọc )
+{% endcomment %}
+
+{% comment %} 
+khi nhấn vào học sinh sẽ ra cái này
+add điểm của học sinh, 
+Form add điểm (học sinh được lấy tự động)
+-> cần 1 trường nhập điểm và nút save
+{% endcomment %}
+
+{% block content %}
+    <div class="col-1"></div>
+    <div class="col-2">
+        <img src="{% static "illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" %}" class="img-thumbnail" alt="...">
+    </div>
+
+    <div class="col-8">
+        <div class="card">
+            <h3 class="card-title text-center">Thông tin học sinh</h3>
+            <div class="card-body">   
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">ID</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.id }}</td>
+                    </tr>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Tên</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.name }}</td>
+                    </tr>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Lớp</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.classroom }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>    
+        </div>
+    </div> 
+    <div class="col-1"></div>   
+</div>
+
+<div class="row" style="margin-top: 1%">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <div class="card" style="background-color: #07478D">
+            <div class="card-body row">
+                <div class="col-4">
+                    <h2 class="card-title text-white" style="margin-top: 1rem;">Nhập điểm</h2>
+                    <div class="card" style="height: 12rem">
+                        <form method="POST">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Điểm</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Nhập điểm</th>
+                                        <td>
+                                                {%csrf_token%}
+                                                {{ MarkForm.scores }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button type="submit" class="btn btn-primary" style="transform: scale(1.0); width:80%;margin-left: auto; margin-right: auto; margin-top:1rem; display: block; font-size: 1em; border-radius: 5px; background-image: linear-gradient(to right, #126DBC, #8C52FF);border: none;">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <h2 class="card-title text-white" style="margin-top: 1rem;">Điểm</h2>
+                    <table class="table" id="marks-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Điểm</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                                {% for mark in student.marks.all %}
+                                    <tr>
+                                        <th scope="row">Điểm</th>
+                                        <td> {{ mark.scores }}</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr id="average-row" class="table-success">
+                                    <th scope="row">Trung bình</th>
+                                    <td id="average-mark" colspan="2"></td>
+                                </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                
+
+            </div>
+        </div>
+    </div> 
+    <div class="col-1"></div>   
+</div> 
+
+<script src="{% static 'average_mark.js' %}"></script>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">Thông báo</h4>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+            </div>
+    
+            <!-- Modal footer -->
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+    
+        </div>
+    </div>
+</div>
+
+<script>
+    // Kiểm tra xem có thông báo nào không
+    {% if messages %}
+    // Hiển thị modal nếu có
+    $(document).ready(function(){
+        $('#myModal').modal('show');
+    });
+    {% endif %}
+</script>
+{% endblock content %}
