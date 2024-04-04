@@ -5,35 +5,7 @@
 
 
 {% block content %}
-{% comment %} <h1>Time Table</h1>
-    <h2>Add Lesson Time</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form_lessons.as_p }}
-        <button type="submit" name="action" value="lesson">Add Lesson Time</button>
-    </form>
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
 
-    <h2>Add Schedule</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form_schedules.as_p }}
-        <button type="submit" name="action" value="schedule">Add Schedule</button>
-    </form>
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %} {% endcomment %}
-{% comment %} khối modal message {% endcomment %}
 <div class="modal fade" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -140,4 +112,26 @@
     </div> 
     <div class="col-1"></div>   
 </div>
+
+{% comment %} Minh Tiến add  {% endcomment %}
+<h1>Chọn Lớp Học</h1>
+    <form action="" method="get">
+        <select name="classroom_name" onchange="this.form.submit()">
+            <option value="">Chọn Lớp Học...</option>
+            {% for classroom in classrooms %}
+                <option value="{{ classroom.name }}" {% if selected_classroom and selected_classroom.name == classroom.name %} selected {% endif %}>
+                    {{ classroom.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    {% if schedule %}
+        <h2>Thời Khóa Biểu: {{ selected_classroom.name }}</h2>
+        <ul>
+            {% for entry in schedule %}
+                <li>{{ entry.dayofweek }} - Tiết {{ entry.period.period }}: {{ entry.subject.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock content %}
