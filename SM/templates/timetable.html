@@ -72,70 +72,72 @@
 
 
 <div class="row" style="margin-top: 6rem">
-    <div class="col-2"></div>
-    <div class="col-8">
-        <div class="card" style="background-color: #07478D">
-            <div class="card-body">
-                <h2 class="card-title text-white" style="margin-top: 2%;">Xếp thời khoá biểu</h2>
-                <form method="POST">
-                    {% csrf_token %}
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nhập thông tin</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">Lớp</th>
-                                <td>{{form_schedules.classroom }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Ngày trong tuần</th>
-                                <td>{{form_schedules.dayofweek }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Tiết</th>
-                                <td>{{form_schedules.period }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Môn</th>
-                                <td>{{form_schedules.subject }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button id="openModalBtn" name="action" value="schedule" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Thêm</button>
-                </form>
-            </div>
-        </div>
-        <div class="card" style="background-color: #07478D; margin-top: 1rem">
-            <div class="card-body">
-                <h2 class="card-title text-white" style="margin-top: 0%;">Danh sách thời khoá biểu</h2>
-                <form method="POST">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Học sinh</th>
-                            <th scope="col">Lớp</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                                {%for student in students %}
+    <div class="col-1"></div>
+    <div class="col-10">
+        <div class="row">
+            <div class="col-4">
+                <div class="card" style="background-color: #07478D">
+                    <div class="card-body">
+                        <h2 class="card-title text-white" style="margin-top: 2%;">Xếp thời khoá biểu</h2>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <table class="table">
+                                <thead>
                                 <tr>
-                                    <td>{{student.id}}</td>
-                                    <td>{{student.name}}</td>
-                                    <td>{{student.classroom}}</td>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nhập thông tin</th>
                                 </tr>
-                                {% endfor %}
-                        </tbody>
-                    </table>
-                    {% comment %} <button id="openModalBtn" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Thêm</button> {% endcomment %}
-                </form>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Lớp</th>
+                                        <td>{{form_schedules.classroom }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Ngày trong tuần</th>
+                                        <td>{{form_schedules.dayofweek }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Tiết</th>
+                                        <td>{{form_schedules.period }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Môn</th>
+                                        <td>{{form_schedules.subject }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button id="openModalBtn" name="action" value="schedule" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Thêm</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="card" style="background-color: #07478D">
+                    <div class="card-body">
+                        <h2 class="card-title text-white" style="margin-top: 0%;">Danh sách thời khoá biểu</h2>
+                        <form>
+                            {% for classroom in classroom %}
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>{{classroom}}</th>
+                                    <th scope="col">{{classroom.schedule.priod}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                            {%endfor%}
+                            {% comment %} <button id="openModalBtn" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Thêm</button> {% endcomment %}
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div> 
-    <div class="col-2"></div>   
+    <div class="col-1"></div>   
 </div>
 {% endblock content %}

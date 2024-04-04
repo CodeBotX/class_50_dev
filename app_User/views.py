@@ -26,22 +26,6 @@ def teacher_register(request):
   }
   return HttpResponse(template.render(context,request))
 
-# CŨ
-# def teacher_login_home(request):
-#     if request.method == 'POST':
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             email = form.cleaned_data['email']
-#             password = form.cleaned_data['password']
-#             user = authenticate(request, email=email, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 return HttpResponseRedirect('home/')  # Thay đổi thành URL của trang thành công
-#     else:
-#         form = LoginForm()
-#     return render(request, 'login.html', {'loginForm': form})
-
-# -------------------------------------------------------------------------------------------------------
 
 
 
