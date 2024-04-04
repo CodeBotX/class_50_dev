@@ -80,7 +80,7 @@ Tên lớp,tên môn , Tiết trong ngày
 
                                   {% else %}
                                   <div class="d-flex justify-content-center">
-                                    <a class="btn btn-primary text-white" href="{% url 'details' classroom.name seat.student.id %}" style="width:100%">{{ seat.student.name }}</a>
+                                    <a class="btn btn-primary text-white text-truncate" href="{% url 'details' classroom.name seat.student.id %}" style="width:100%">{{ seat.student.name }}</a>
                                   </div> 
                                   {% endif %}
                               {% endif %}
@@ -114,7 +114,7 @@ Tên lớp,tên môn , Tiết trong ngày
               <form method="POST" style="margin-bottom: 5%">
                 <h2 class="card-title text-white" style="margin-top: 2%;font-size:0.5em">Thông tin tiết học</h2>
                 {% csrf_token %}
-                <table class="table" method="post" style="font-size:0.35em; border-radius: 10px;">
+                <table class="table table-responsive" method="post" style="font-size:0.35em; border-radius: 10px;">
                   <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -128,12 +128,6 @@ Tên lớp,tên môn , Tiết trong ngày
                         <td>        
                             {{form_addlesson.name }}
                         </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Số tiết</th>
-                      <td>        
-                          {{form_addlesson.counter }}
-                      </td>
                     </tr>
                     <tr>
                       <th scope="row">Nhận xét</th>

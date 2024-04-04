@@ -3,7 +3,7 @@ from .models import *
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.postgres.fields import ArrayField
+
 
 
 # Môn Học
@@ -105,7 +105,7 @@ def create_semesters(sender, instance, created, **kwargs):
 class Mark(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='marks')
     subject= models.ForeignKey(Subject, on_delete=models.CASCADE)
-    scores = ArrayField(models.FloatField(), blank=True, null=True)
+    scores = models.FloatField(models.FloatField(), blank=True, null=True)
 
     
 
