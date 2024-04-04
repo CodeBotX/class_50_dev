@@ -134,4 +134,23 @@
 </div>
 
 
+{% comment %} Minh Tiến add  {% endcomment %}
+<form method="get" action="">
+    <select name="classroom_id">
+        {% for classroom in classrooms %}
+        <option value="{{ classroom }}">{{ classroom }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Hiển thị Học Sinh</button>
+</form>
+
+{% if students %}
+    <ul>
+        {% for student in students %}
+            <li>{{ student.name }} - ID: {{ student.id }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Không có học sinh nào được tìm thấy.</p>
+{% endif %}
 {% endblock content %}
