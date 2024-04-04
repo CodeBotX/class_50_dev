@@ -1,59 +1,85 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock title %}
+{% load static %}
+{% block title %}Tra cứu{% endblock title %}
 
 
 {% block content %}
+{% comment %} <h1>Student: {{ student.name }}</h1>
 
-{% comment %} <h1>Marks for {{ student.name }}</h1>
-<ul>
-    {% for mark in marks %}
-        <li>{{ mark.subject }}: {{ mark.scores }}</li>
-    {% endfor %}
-</ul> {% endcomment %}
+{% if marks %}
+    <h2>Marks:</h2>
+    <ul>
+        {% for mark in marks %}
+            <li>{{ mark.subject.name }}: {{ mark.Mark }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No marks found for this student.</p>
+{% endif %} {% endcomment %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Marks</title>
-</head>
-<body>
-    <div id="app">
-        <h1>Student Marks</h1>
-        <ul>
-            <li v-for="mark in marks" :key="mark.id">
-                <span>{{ mark.subject }}</span>: <span>{{ mark.score }}</span>
-            </li>
-        </ul>
+<div class="row"> 
+    <div class="col-1"></div>
+    <div class="col-2">
+        <img src="{% static "illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" %}" class="img-thumbnail" alt="...">
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-        new Vue({
-            el: '#app',
-            data: {
-                marks: []
-            },
-            mounted() {
-                this.fetchMarks();
-            },
-            methods: {
-                fetchMarks() {
-                    axios.get('/api/student_marks/{{ student_id }}/')
-                        .then(response => {
-                            this.marks = response.data;
-                        })
-                        .catch(error => {
-                            console.error('There was an error!', error);
-                        });
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+    <div class="col-8">
+        <div class="card">
+            <h3 class="card-title text-center">Thông tin học sinh</h3>
+            <div class="card-body">   
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">ID</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.id }}</td>
+                    </tr>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Tên</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.name }}<td>
+                    </tr>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Lớp</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.classroom }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>    
+        </div>
+    </div> 
+    <div class="col-1"></div>   
+</div>
+
+<div class="row" style="margin-top: 1%">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <div class="card" style="background-color: #07478D">
+            <div class="card-body">
+                <h2 class="card-title text-white" style="margin-top: 2%;">Điểm</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Môn</th>
+                        <th scope="col">Điểm</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for subject in subjects %}
+                                <th scope="row">{{ subject.name }}</th>
+                                    {% if marks %}
+                                        {% for mark in marks %}
+                                            <td>{{ mark.Mark }}<td>
+                                        {% endfor %}
+                                    {% else %}
+                                        <td>chưa có điểm<td>
+                                    {% endif %}
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> 
+    <div class="col-1"></div>   
+</div>
 {% endblock content %}
-
-

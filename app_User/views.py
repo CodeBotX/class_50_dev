@@ -17,7 +17,6 @@ def teacher_register(request):
     form = SignUpForm(request.POST)
     if form.is_valid():
       form.save()
-      return redirect('Home_Login')
   
   teachers = Teacher.objects.all()
   context = {
@@ -25,7 +24,6 @@ def teacher_register(request):
     'teachers':teachers
   }
   return HttpResponse(template.render(context,request))
-
 
 
 

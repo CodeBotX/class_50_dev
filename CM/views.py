@@ -120,7 +120,7 @@ def summary_view (request,classroom):
             seat = form.cleaned_data['seat']
             student = form.cleaned_data['student']
             seat.assign_student(student)
-            messages.success(request, 'Thành công!')
+            # messages.success(request, 'Thành công!')
 
     else:
         form = AssignStudentForm(classroom=classroom)
@@ -173,22 +173,22 @@ def detail(request,classroom,student):
     return render(request, 'details.html', context)
 
 
+# # Đổi chỗ học sinh
+# def assign_student_to_seat(request, classroom):
+#     classroom = get_object_or_404(Classroom, name=classroom)
+#     seats = classroom.seats.all()
+#     if request.method == 'POST':
+#         form = AssignStudentForm(classroom, request.POST)  
+#         if form.is_valid():
+#             seat = form.cleaned_data['seat']
+#             student = form.cleaned_data['student']
+#             seat.assign_student(student)
+#             messages.success(request, 'Thành công!')
 
-def assign_student_to_seat(request, classroom):
-    classroom = get_object_or_404(Classroom, name=classroom)
-    seats = classroom.seats.all()
-    if request.method == 'POST':
-        form = AssignStudentForm(classroom, request.POST)  
-        if form.is_valid():
-            seat = form.cleaned_data['seat']
-            student = form.cleaned_data['student']
-            seat.assign_student(student)
-            messages.success(request, 'Thành công!')
-
-    else:
-        form = AssignStudentForm(classroom=classroom)
-    context ={
-        'form': form,
-        'seats':seats
-    }
-    return render(request, 'studenttoseat.html', context)
+#     else:
+#         form = AssignStudentForm(classroom=classroom)
+#     context ={
+#         'form': form,
+#         'seats':seats
+#     }
+#     return render(request, 'studenttoseat.html', context)

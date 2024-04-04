@@ -2,21 +2,6 @@
 {% load static %}
 {% block title %}Login{% endblock title %}
 
-{% comment %} 
-http://127.0.0.1:8000/login/
-
-Login chính là home
-Để đăng nhập cần nhập 2 trường, email và password (input)
-email: {{loginForm.email}}
-password: loginForm.password
-
-Lưu ý: 
-1. phải đặt 2 trường này trong thẻ form, not table
-2. method như vd bên dưới đang sử dụng
-3. {% csrf_token %} nằm dưới thẻ form
-
-{% endcomment %}
-
 
 {% block content %}
 
@@ -60,12 +45,10 @@ Lưu ý:
                     {% endfor %}
                     <div class="mb-3 mt-3">
                       <label for="email" class="form-label">Email:</label>
-                      {% comment %} <input type="email" class="form-control" id="Username" placeholder="Enter Username" name="Username"> {% endcomment %}
                       {{loginForm.email}}
                     </div>
                     <div class="mb-3">
                       <label for="pwd" class="form-label">Password:</label>
-                      {% comment %} <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd"> {% endcomment %}
                       {{loginForm.password}}
                     </div>
                     <button class="btn btn-primary" type="submit" name="action" value="login">Login</button>

@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import *
 from .forms import *
 from django.contrib import messages
@@ -29,7 +29,6 @@ def add_subject(request):
         if form.is_valid():
             form.save()
             messages.success(request,'Thêm môn học thành công!')
-            return redirect('add_subject')  # Chuyển hướng sau khi lưu thành công
     else:
         form = SubjectForm()
     context = {
@@ -96,7 +95,7 @@ def get_students(request):
     return render(request, 'student_list.html', {'students': students})
 
 
-
+# Thêm lịch học
 def time_table (request):
     if request.method == 'POST':
         form_lessons = LessonTimeForm()
@@ -118,7 +117,32 @@ def time_table (request):
         form_schedules = ScheduleForm()
     return render(request, 'timetable.html', {'form_lessons': form_lessons,'form_schedules':form_schedules})
 
+# Hiện thị thời khóa biểu ( đang sửa, chưa update)
+def classroom_timetable(request):
+    # Lấy tên lớp học từ query parameters
+    classroom_name = request.GET.get('classroom', None)
 
+    # Khởi tạo các biến cần thiết
+    schedules = None
+    selected_classroom = None
+
+    # Lấy tất cả các lớp học để hiển thị trong dropdown
+    classrooms = Classroom.objects.all()
+
+    # Kiểm tra xem có tên lớp học được chọn không
+    if classroom_name:
+        # Lấy đối tượng Classroom dựa trên tên
+        selected_classroom = get_object_or_404(Classroom, name=classroom_name)
+        # Lấy các lịch học liên quan đến lớp học được chọn
+        schedules = Schedule.objects.filter(classroom=selected_classroom).select_related('subject', 'period')
+
+    return render(request, 'timetable.html', {
+        'selected_classroom': selected_classroom,  # Đối tượng lớp học được chọn
+        'schedules': schedules,  # Các lịch học liên quan
+        'classrooms': classrooms  # Danh sách tất cả các lớp học
+    })
+        
+        
 def rank_classrooms_by_weekly_grades(request):
     # Lấy ngày đầu tuần (thứ Hai)
     start_of_week = datetime.now() - timedelta(days=datetime.now().weekday())
@@ -134,8 +158,4 @@ def rank_classrooms_by_weekly_grades(request):
     # Sắp xếp các lớp học theo điểm trung bình từ cao đến thấp
     ranked_classrooms = sorted(classroom_grades, key=lambda x: x['average_grade'], reverse=True)
     return render(request, 'rank_classrooms.html', {'ranked_classrooms': ranked_classrooms})
-
-                    
-        
-
     
