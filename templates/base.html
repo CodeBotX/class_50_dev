@@ -39,36 +39,41 @@
     <body style="background-color: #2385C4;">
         {% block Header %}
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #11499C">
-          <div class="container-fluid">
             
-              <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <a class="navbar-brand font-weight-bold text-white nav-link active" aria-current="page" style="font-size: 200%" href="/home" >Class 4.0 Phiên Bản Server</a>
-                <div class="col-sm-9"></div> 
-                <div class="col-sm-2 row">
-                    {% if user.username %}
-      
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                      <div class="col-sm-6">
+              <div class="collapse navbar-collapse row" id="navbarTogglerDemo02">
+                <div class="col-2">
+                  <a class="navbar-brand font-weight-bold text-white nav-link active" aria-current="page" style="font-size: 200%" href="/home"  title="Go Home" >Class 4.0 Phiên Bản Phát Triển</a>
+                </div> 
+                <div class="col-8"></div> 
+                <div class="col-2">
+                    {% comment %} {% if Teacher.last_name %} {% endcomment %}
+                    {% comment %} <div class="row">
+                      <div class="col-6">
                           <p class="text-white text-center" style="height: 100%;
                           line-height: 100%;
                           display: flex;
                           align-items: center;
-                          justify-content: center;">{{Teacher.lastname}}</p>
+                          justify-content: center;">{{Teacher.last_name}}</p>
                       </div>
-                      <div class="col-sm-6">    
+                      <div class="col-6">    
                           <li class="nav-item">
-                            <a href="{% url 'logout' %}" class="nav-link btn btn-primary text-white">Logout</a>
+                            <a href="{% url 'logout' %}" class="btn btn-primary text-white">Logout</a>
                           </li>
-                      </div>  
-                    
+                      </div> 
+                    </div> {% endcomment %}
+                    <ul class="navbar-nav ml-auto">
+                      <li class="nav-item ml-auto">
+                        <p>{{Teacher.last_name}}</p>
+                      </li>
+                      </li>
+                      <li class="nav-item ml-auto">
+                        <a class="nav-link text-white btn btn-outline-primary" href="{% url 'logout' %}">Log out</a>
+                      </li>
                     </ul>
-                    {% else %}
-                      <a href = "/home" class="text-white btn btn-primary">Home</a>
-                    {% endif %}
+                    {% comment %} {% else %}
+                    {% endif %} {% endcomment %}
                 </div>
               </div>
-              
-          </div>
         </nav>
         {% endblock Header %}
       

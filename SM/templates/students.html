@@ -81,7 +81,7 @@
                     <div class="col-3">
                         <h2 class="card-title text-white" style="margin-top: 0%;">Chọn lớp</h2>
                         <div class="card" style="height: 12rem">
-                            <form method="POST">
+                            <form method="get" action="">
                                 <table class="table">
                                     <thead>
                                     <tr>
@@ -93,7 +93,7 @@
                                         <tr>
                                             <th>Lớp</th>
                                             <td>
-                                                <select class="form-select text-center">
+                                                <select class="form-select text-center" name="classroom_id">
                                                     {%for classroom in classrooms %} 
                                                     <option value="{{ classroom }}">{{ classroom }}</option>
                                                     {%endfor%}
@@ -117,12 +117,17 @@
                             </tr>
                             </thead>
                             <tbody>
-                                {%for student in students %}
-                                <tr>
-                                    <td>{{student.id}}</td>
-                                    <td>{{student.name}}</td>
-                                </tr>
-                                {%endfor%}
+                                {% if students %}
+                                    {% for student in students %}
+                                    <tr>
+                                        <td>{{ student.id }}</td>
+                                        <td>{{ student.name }}</td>
+                                    </tr>
+                                    {%endfor%}
+                                {% else %}
+                                    <td>None</td>
+                                    <td>Không có học sinh nào</td>
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -132,6 +137,7 @@
     </div> 
     <div class="col-2"></div>   
 </div>
+
 
 
 {% endblock content %}

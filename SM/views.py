@@ -65,7 +65,7 @@ def add_and_set_classroom(request):
     return render(request, 'classrooms.html',context)
 
 
-# Thêm học sinh (OK)
+# Thêm học sinh (OK) - chưa sử dụng
 def add_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
@@ -76,24 +76,48 @@ def add_student(request):
             return render(request, 'student_list.html', {'students': students})
     else:
         form = StudentForm()
-    
-    classrooms = Classroom.objects.all()
-    
+
     context ={
-        'StudentForm': form,
-        'classrooms':classrooms,
+        'StudentForm': form
     }
 
     return render(request, 'students.html', context)
 
-def get_students(request):
-    classroom_id = request.GET.get('classroom_id')
-    if classroom_id:
-        students = Student.objects.filter(classroom__name=classroom_id)
-    else:
-        students = Student.objects.all()
-    return render(request, 'student_list.html', {'students': students})
 
+# add và hiển thị học sinh
+def manage_students(request):
+    if request.method == 'POST':
+        # Nếu request là phương thức POST, thêm học sinh mới
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Thêm học sinh thành công!')
+            # Sau khi thêm học sinh, chuyển hướng đến trang danh sách học sinh
+            # return redirect('student_list')
+        else:
+            # Nếu form không hợp lệ, hiển thị form và thông báo lỗi
+            classrooms = Classroom.objects.all()
+            context = {
+                'StudentForm': form,
+                'classrooms': classrooms
+            }
+            return render(request, 'students.html', context)
+    else:
+        # Nếu request không phải là phương thức POST, hiển thị danh sách học sinh
+        classrooms = Classroom.objects.all()
+        classroom_id = request.GET.get('classroom_id')
+        if classroom_id:
+            # Đảm bảo rằng classroom tồn tại
+            students = Student.objects.filter(classroom__name=classroom_id).select_related('classroom')
+        else:
+            # Có thể trả về một thông báo hoặc rỗng nếu không có classroom_id được cung cấp
+            students = Student.objects.none()
+        context = {
+            'students': students,
+            'classrooms': classrooms,
+            'StudentForm': StudentForm()  # Pass form vào context để hiển thị trên trang
+        }
+        return render(request, 'students.html', context)
 
 # Thêm lịch học
 def time_table (request):
