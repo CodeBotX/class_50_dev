@@ -42,14 +42,14 @@ class LessonTime(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
 
-    def clean(self):
-    # Chuyển đổi start_time và end_time thành đối tượng datetime.time
-        start_time = datetime.strptime(str(self.start_time), '%H:%M:%S').time()
-        end_time = datetime.strptime(str(self.end_time), '%H:%M:%S').time()
+    # def clean(self):
+    # # Chuyển đổi start_time và end_time thành đối tượng datetime.time
+    #     start_time = datetime.strptime(str(self.start_time)).time()
+    #     end_time = datetime.strptime(str(self.end_time)).time()
 
-        # Kiểm tra xem start_time có trước end_time không
-        if start_time >= end_time:
-            raise ValidationError(('Thời Gian Bắt Đầu Phải Trước Thời Gian Kết Thúc'))
+    #     # Kiểm tra xem start_time có trước end_time không
+    #     if start_time >= end_time:
+    #         raise ValidationError(('Thời Gian Bắt Đầu Phải Trước Thời Gian Kết Thúc'))
 
     def __str__(self):
         return f"{self.period}: {self.start_time.strftime('%H:%M')} - {self.end_time.strftime('%H:%M')}"

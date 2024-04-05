@@ -51,7 +51,7 @@
                 <div class="card" style="background-color: #07478D">
                     <div class="card-body">
                         <h2 class="card-title text-white" style="margin-top: 0.5rem;">Xếp thời khoá biểu</h2>
-                        <form method="POST" action="schedule">
+                        <form method="POST">
                             {% csrf_token %}
                             <table class="table">
                                 <thead>
@@ -79,7 +79,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <input type="hidden" name="action" value="lesson">
+                            <input type="hidden" name="action" value="schedule">
                             <button id="openModalBtn" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Thêm</button>
                         </form>
                     </div>
@@ -87,7 +87,7 @@
                 <div class="card" style="background-color: #07478D; margin-top: 1rem">
                     <div class="card-body">
                         <h2 class="card-title text-white" style="margin-top: 0.5rem;">Xếp thời gian</h2>
-                        <form method="POST" action="lesson">
+                        <form method="POST">
                             {% csrf_token %}
                             <table class="table">
                                 <thead>
@@ -239,22 +239,4 @@
     {% endif %}
 
     {% comment %} Minh Tiến Add {% endcomment %}
-    <h1>Thêm lịch học</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form_lessons.as_p }}
-        <input type="hidden" name="action" value="lesson">
-        <button type="submit">Thêm lịch học</button>
-    </form>
-
-    <form method="POST">
-        {% csrf_token %}
-        {{ form_schedules.as_p }}
-        <input type="hidden" name="action" value="schedule">
-        <button type="submit">Thêm lịch học !</button>
-    </form>
-
-    {% for message in messages %}
-        <div>{{ message }}</div>
-    {% endfor %}
 {% endblock content %}

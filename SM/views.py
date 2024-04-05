@@ -165,7 +165,7 @@ def timetable(request):
             action = request.POST.get('action')
             if action == 'lesson':
                 form_lessons.save()
-                messages.success(request, 'Thêm lớp học thành công!')
+                messages.success(request, 'Thêm lịch học thành công!')
         elif form_schedules.is_valid():
             action = request.POST.get('action')
             if action == 'schedule':
