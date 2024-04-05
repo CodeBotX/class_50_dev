@@ -119,7 +119,7 @@ def manage_students(request):
         }
         return render(request, 'students.html', context)
 
-# Thêm lịch học
+# Thêm lịch học ( tạm thời chưa sử dụng)
 def time_table (request):
     if request.method == 'POST':
         form_lessons = LessonTimeForm()
@@ -142,30 +142,62 @@ def time_table (request):
     return render(request, 'timetable.html', {'form_lessons': form_lessons,'form_schedules':form_schedules})
 
 # Hiện thị thời khóa biểu ( đang sửa, chưa update)
-def classroom_timetable(request):
-    # Lấy tên lớp học từ query parameters
-    classroom_name = request.GET.get('classroom', None)
-
-    # Khởi tạo các biến cần thiết
-    schedules = None
+def show_timetable(request):
+    classrooms = Classroom.objects.all()
+    classroom_name = request.GET.get('classroom_name')
+    schedule = None
     selected_classroom = None
 
-    # Lấy tất cả các lớp học để hiển thị trong dropdown
-    classrooms = Classroom.objects.all()
-
-    # Kiểm tra xem có tên lớp học được chọn không
     if classroom_name:
-        # Lấy đối tượng Classroom dựa trên tên
-        selected_classroom = get_object_or_404(Classroom, name=classroom_name)
-        # Lấy các lịch học liên quan đến lớp học được chọn
-        schedules = Schedule.objects.filter(classroom=selected_classroom).select_related('subject', 'period')
+        selected_classroom = Classroom.objects.filter(classroom__name=classroom_name).first()
+        if selected_classroom:
+            schedule = Schedule.objects.filter(classroom=selected_classroom)
 
     return render(request, 'timetable.html', {
-        'selected_classroom': selected_classroom,  # Đối tượng lớp học được chọn
-        'schedules': schedules,  # Các lịch học liên quan
-        'classrooms': classrooms  # Danh sách tất cả các lớp học
+        'classrooms': classrooms,
+        'selected_classroom': selected_classroom,
+        'schedule': schedule,
     })
-        
+
+# 
+
+def timetable(request):
+    if request.method == 'POST':
+        form_lessons = LessonTimeForm()
+        form_schedules = ScheduleForm()
+        if form_lessons.is_valid():
+            action = request.POST.get('action')
+            if action == 'lesson':
+                form_lessons.save()
+                messages.success(request, 'Thành Công')
+        elif form_schedules.is_valid():
+            if action == 'schedule':
+                try:
+                    form_schedules.save()
+                    messages.success(request, 'Thêm lịch học thành công!')
+                except IntegrityError:
+                    messages.error(request, 'Đã tồn tại!')
+    else:
+        form_lessons = LessonTimeForm()
+        form_schedules = ScheduleForm()
+
+    classrooms = Classroom.objects.all()
+    classroom_name = request.GET.get('classroom_name')
+    schedule = None
+    selected_classroom = None
+
+    if classroom_name:
+        selected_classroom = Classroom.objects.filter(name=classroom_name).first()
+        if selected_classroom:
+            schedule = Schedule.objects.filter(classroom=selected_classroom)
+
+    return render(request, 'timetable.html', {
+        'form_lessons': form_lessons,
+        'form_schedules': form_schedules,
+        'classrooms': classrooms,
+        'selected_classroom': selected_classroom,
+        'schedule': schedule,
+    })
         
 def rank_classrooms_by_weekly_grades(request):
     # Lấy ngày đầu tuần (thứ Hai)
