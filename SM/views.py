@@ -186,7 +186,7 @@ def timetable(request):
         if selected_classroom:
             schedule = Schedule.objects.filter(classroom=selected_classroom)
 
-    return render(request, 'timetable.html', {
+    return render(request, 'timetable2.html', {
         'form_lessons': form_lessons,
         'form_schedules': form_schedules,
         'classrooms': classrooms,

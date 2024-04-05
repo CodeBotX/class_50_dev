@@ -95,7 +95,7 @@ trường thứ tự toàn trường
                 
                                                     {% else %}
                                                     <div class="d-flex justify-content-center">
-                                                    <a class="btn btn-primary text-white" href="{% url 'details' classroom.name seat.student.id %}" style="width:100%">{{ seat.student.name }}</a>
+                                                    <a class="btn btn-primary text-white" style="width:100%">{{ seat.student.name }}</a>
                                                     </div> 
                                                     {% endif %}
                                                 {% endif %}
@@ -123,6 +123,81 @@ trường thứ tự toàn trường
     <div class="col-1"></div>
     <div class="col-10">
         <div class="card" style="background-color: #07478D">
+            <div class="card-body">
+                <h2 class="card-title text-white" style="margin-top: 0.5rem;">Thời khoá biểu</h2>
+                <form>
+                    {% comment %} {% if schedule %}
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>{{ selected_classroom.name }}</th>
+                                {% for entry in schedule %}
+                                <th scope="col">{{ entry.period.period }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in schedule %}
+                            <tr>
+                                <th scope="col">Thứ 2</th>
+                            </tr>
+                            {% endfor %}
+                            {% for entry in schedule %}
+                            <tr>
+                                <th scope="col">Thứ 3</th>
+                            </tr>
+                            {% endfor %}
+                            {% for entry in schedule %}
+                            <tr>
+                                <th scope="col">Thứ 4</th>
+                            </tr>
+                            {% endfor %}
+                            {% for entry in schedule %}
+                            <tr>
+                                <th scope="col">Thứ 5</th>
+                            </tr>
+                            {% endfor %}
+                            {% for entry in schedule %}
+                            <tr>
+                                <th scope="col">Thứ 6</th>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %} {% endcomment %}
+                    
+                    {% if schedule %}
+                    <table class="table table-bordered table-responsive">
+                        <tr>
+                            <th>#</th>
+                            <th>Thứ 2</th>
+                            <th>Thứ 3</th>
+                            <th>Thứ 4</th>
+                            <th>Thứ 5</th>
+                            <th>Thứ 6</th>
+                            <th>Thứ 7</th>
+                        </tr>
+                        {% for period in periods %}
+                            <tr>
+                                <th>Tiết {{ period.period }}</th>
+                                {% for day in days %}
+                                    <td>
+                                        {% for entry in schedule %}
+                                            {% if entry.dayofweek == day and entry.period.period == period.period %}
+                                                {{ entry.subject.name }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        <div class="card" style="background-color: #07478D; margin-top:2rem">
             <div class="card-body">
                     <h2 class="card-title text-white" style="margin-top: 1rem;">Thông tin tuần học</h2>
                     <table class="table">
@@ -170,6 +245,7 @@ trường thứ tự toàn trường
 
             </div>
         </div>
+        
     </div> 
     <div class="col-1"></div>   
 </div>
@@ -226,6 +302,16 @@ trường thứ tự toàn trường
     {% else %}
     <p>No schedule available for this classroom.</p>
     {% endif %}
+
+    {% for Lesson in Lessons %}
+    <tr>
+        <th scope="row">{{Lesson.date_time }}</th>
+        <td>{{Lesson.period }}</td>
+        <td>{{Lesson.subject}}</td>
+        <td>{{Lesson.name }}</td>
+        <td>{{Lesson.comment}}</td>
+    </tr>
+    {% endfor %}
 
 
 {% endblock content %}
