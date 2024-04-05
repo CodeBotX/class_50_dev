@@ -237,4 +237,24 @@
             {% endfor %}
         </ul>
     {% endif %}
+
+    {% comment %} Minh Tiến Add {% endcomment %}
+    <h1>Thêm lịch học</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form_lessons.as_p }}
+        <input type="hidden" name="action" value="lesson">
+        <button type="submit">Thêm lịch học</button>
+    </form>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form_schedules.as_p }}
+        <input type="hidden" name="action" value="schedule">
+        <button type="submit">Thêm lịch học !</button>
+    </form>
+
+    {% for message in messages %}
+        <div>{{ message }}</div>
+    {% endfor %}
 {% endblock content %}

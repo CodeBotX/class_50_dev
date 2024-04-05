@@ -3,7 +3,7 @@ from .models import *
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from datetime import datetime
 
 
 # Môn Học
@@ -41,9 +41,14 @@ class LessonTime(models.Model):
     period = models.CharField(max_length=10, unique=True)
     start_time = models.TimeField()
     end_time = models.TimeField()
+
     def clean(self):
+    # Chuyển đổi start_time và end_time thành đối tượng datetime.time
+        start_time = datetime.strptime(str(self.start_time), '%H:%M:%S').time()
+        end_time = datetime.strptime(str(self.end_time), '%H:%M:%S').time()
+
         # Kiểm tra xem start_time có trước end_time không
-        if self.start_time >= self.end_time:
+        if start_time >= end_time:
             raise ValidationError(('Thời Gian Bắt Đầu Phải Trước Thời Gian Kết Thúc'))
 
     def __str__(self):

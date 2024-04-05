@@ -303,15 +303,30 @@ trường thứ tự toàn trường
     <p>No schedule available for this classroom.</p>
     {% endif %}
 
-    {% for Lesson in Lessons %}
-    <tr>
-        <th scope="row">{{Lesson.date_time }}</th>
-        <td>{{Lesson.period }}</td>
-        <td>{{Lesson.subject}}</td>
-        <td>{{Lesson.name }}</td>
-        <td>{{Lesson.comment}}</td>
-    </tr>
-    {% endfor %}
+    <h1>Lịch học</h1>
+    <div class="lessons-container">
+        {% if lessons %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Môn học</th>
+                        <th>Thời gian bắt đầu</th>
+                        <th>Thời gian kết thúc</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for lesson in lessons %}
+                    <tr>
+                        <td>{{lesson.name}}</td>
+                        <td>{{ lesson.comment }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Không có tiết học nào để hiển thị.</p>
+        {% endif %}
+    </div>
 
 
 {% endblock content %}

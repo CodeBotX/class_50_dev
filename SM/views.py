@@ -39,7 +39,7 @@ def add_subject(request):
     return render(request, 'subjects.html', context)
 
 
-# Thêm lớp học ( chưa xong )
+# Thêm lớp học 
 def add_and_set_classroom(request):
     classrooms = Classroom.objects.all()
     if request.method == 'POST':
@@ -118,8 +118,8 @@ def manage_students(request):
 # Thêm lịch học ( tạm thời chưa sử dụng)
 def time_table (request):
     if request.method == 'POST':
-        form_lessons = LessonTimeForm()
-        form_schedules = ScheduleForm()
+        form_lessons = LessonTimeForm(request.POST)
+        form_schedules = ScheduleForm(request.POST)
         if form_lessons.is_valid():
             action = request.POST.get('action')
             if action == 'lesson':
@@ -157,25 +157,23 @@ def show_timetable(request):
 
 # 
 def timetable(request):
+
     if request.method == 'POST':
-        form_lessons = LessonTimeForm()
-        form_schedules = ScheduleForm()
+        form_lessons = LessonTimeForm(request.POST)
+        form_schedules = ScheduleForm(request.POST)
         if form_lessons.is_valid():
             action = request.POST.get('action')
             if action == 'lesson':
                 form_lessons.save()
-                messages.success(request, 'Thành Công')
+                messages.success(request, 'Thêm lớp học thành công!')
         elif form_schedules.is_valid():
+            action = request.POST.get('action')
             if action == 'schedule':
-                try:
-                    form_schedules.save()
-                    messages.success(request, 'Thêm lịch học thành công!')
-                except IntegrityError:
-                    messages.error(request, 'Đã tồn tại!')
+                form_schedules.save()
+                messages.success(request,'Thành Công')
     else:
-        form_lessons = LessonTimeForm()
-        form_schedules = ScheduleForm()
-
+        form_lessons = LessonTimeForm(request.POST)
+        form_schedules = ScheduleForm(request.POST)
     classrooms = Classroom.objects.all()
     classroom_name = request.GET.get('classroom_name')
     schedule = None
@@ -186,13 +184,14 @@ def timetable(request):
         if selected_classroom:
             schedule = Schedule.objects.filter(classroom=selected_classroom)
 
-    return render(request, 'timetable2.html', {
+    return render(request, 'timetable.html', {
         'form_lessons': form_lessons,
         'form_schedules': form_schedules,
         'classrooms': classrooms,
         'selected_classroom': selected_classroom,
         'schedule': schedule,
     })
+    
         
 def rank_classrooms_by_weekly_grades(request):
     # Lấy ngày đầu tuần (thứ Hai)
