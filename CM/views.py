@@ -108,8 +108,8 @@ def get_nowsubject(classroom):
 
 # Giáo viên xem bảng tổng kết tuần
 def summary_view (request,classroom):
-    classroom = get_object_or_404(Classroom, name=classroom)
-    seats = classroom.seats.all().order_by('row', 'column')
+    classroom = get_object_or_404(Classroom, name=classroom) # đưa vào add lesson
+    seats = classroom.seats.all().order_by('row', 'column') # đưa vào add lesson
     schedule = Schedule.objects.filter(classroom=classroom).first()
     students = classroom.student.all()
     subjects = classroom.subjects.all()
@@ -132,7 +132,9 @@ def summary_view (request,classroom):
         'subjects':subjects,
         'assign_studentForm': form,
         'seats':seats,
-        'schedule':schedule
+        'schedule':schedule,
+        'rows': range(1, 6),
+        'columns': range(1, 9),
     }
     return render(request, 'summary.html', context)
 
