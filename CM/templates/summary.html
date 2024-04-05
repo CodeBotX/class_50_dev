@@ -11,12 +11,7 @@ trường thứ tự toàn trường
 
 
 {% block content %}
-{% comment %} <h1>Các Môn Học Trong Tuần Của Lớp: {{ classroom.name }}</h1>
-    <ul>
-        {% for lesson in lessons %}
-            <li>{{ lesson.name }} - {{ lesson.date_time}}<br>{{lesson.comment}}</li>
-        {% endfor %}
-    </ul> {% endcomment %}
+
 
 <div class="row"> 
     <div class="col-1"></div>
@@ -178,4 +173,59 @@ trường thứ tự toàn trường
     </div> 
     <div class="col-1"></div>   
 </div>
+
+
+{% comment %} Minh Tiến Add {% endcomment %}
+
+<h1>Summary View</h1>
+
+    <h2>Seats</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Row</th>
+                <th>Column</th>
+                <th>Student</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for seat in seats %}
+            <tr>
+                <td>{{ seat.row }}</td>
+                <td>{{ seat.column }}</td>
+                <td>
+                    {% if seat.student %}
+                        {{ seat.student.name }}
+                    {% else %}
+                        Empty
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Schedule</h2>
+    {% if schedule %}
+    <table>
+        <thead>
+            <tr>
+                <th>Day of Week</th>
+                <th>Period</th>
+                <th>Subject</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ schedule.get_dayofweek_display }}</td>
+                <td>{{ schedule.period }}</td>
+                <td>{{ schedule.subject }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% else %}
+    <p>No schedule available for this classroom.</p>
+    {% endif %}
+
+
 {% endblock content %}

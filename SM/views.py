@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect
 from .models import *
 from .forms import *
 from django.contrib import messages
@@ -7,6 +7,7 @@ from django.db.models import Avg
 from datetime import datetime, timedelta
 from CM.models import Lessons
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 @login_required(login_url='/')
 def school_view(request):
@@ -73,7 +74,7 @@ def add_student(request):
             form.save()
             messages.success(request, 'Thêm học sinh thành công!')
             students = Student.objects.all()
-            return render(request, 'student_list.html', {'students': students})
+            return render(request, 'students.html', {'students': students})
     else:
         form = StudentForm()
 
@@ -83,41 +84,36 @@ def add_student(request):
 
     return render(request, 'students.html', context)
 
-
-# add và hiển thị học sinh
+# add and show students
 def manage_students(request):
+    classrooms = Classroom.objects.all()
+    classroom_id = request.GET.get('classroom_id')  # Mặc định là chuỗi rỗng nếu không tồn tại
+    students = Student.objects.none()
+
     if request.method == 'POST':
-        # Nếu request là phương thức POST, thêm học sinh mới
         form = StudentForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Thêm học sinh thành công!')
-            # Sau khi thêm học sinh, chuyển hướng đến trang danh sách học sinh
-            # return redirect('student_list')
-        else:
-            # Nếu form không hợp lệ, hiển thị form và thông báo lỗi
-            classrooms = Classroom.objects.all()
-            context = {
-                'StudentForm': form,
-                'classrooms': classrooms
-            }
-            return render(request, 'students.html', context)
+            # Lấy URL hiện tại và redirect lại nó để ở lại trang
+            current_url = request.META.get('HTTP_REFERER', '/')
+            return HttpResponseRedirect(current_url)
     else:
-        # Nếu request không phải là phương thức POST, hiển thị danh sách học sinh
-        classrooms = Classroom.objects.all()
-        classroom_id = request.GET.get('classroom_id')
+        form = StudentForm()
         if classroom_id:
-            # Đảm bảo rằng classroom tồn tại
             students = Student.objects.filter(classroom__name=classroom_id).select_related('classroom')
-        else:
-            # Có thể trả về một thông báo hoặc rỗng nếu không có classroom_id được cung cấp
-            students = Student.objects.none()
-        context = {
-            'students': students,
-            'classrooms': classrooms,
-            'StudentForm': StudentForm()  # Pass form vào context để hiển thị trên trang
-        }
-        return render(request, 'students.html', context)
+
+    context = {
+        'students': students,
+        'classrooms': classrooms,
+        'StudentForm': form
+    }
+
+    if request.method == 'POST' and not form.is_valid():
+        # Trường hợp request.method là 'POST' nhưng form không hợp lệ
+        messages.error(request, 'Có lỗi xảy ra. ID đã được sử dụng.')
+
+    return render(request, 'students.html', context)
 
 # Thêm lịch học ( tạm thời chưa sử dụng)
 def time_table (request):
@@ -160,7 +156,6 @@ def show_timetable(request):
     })
 
 # 
-
 def timetable(request):
     if request.method == 'POST':
         form_lessons = LessonTimeForm()

@@ -82,4 +82,21 @@
     </div> 
     <div class="col-1"></div>   
 </div>
+
+{% comment %} Minh Tiến Add {% endcomment %}
+<h1>Thông Tin Học Sinh</h1>
+<p>Tên: {{ student.name }}</p>
+<p>ID: {{ student.id }}</p>
+<p>Lớp: {{ student.classroom.name }}</p>
+
+<h2>Điểm Số</h2>
+{% if marks %}
+    <ul>
+    {% for mark in marks %}
+        <li>Môn: {{ mark.subject.name }} - Điểm: {{ mark.scores }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Học sinh này chưa có điểm số.</p>
+{% endif %}
 {% endblock content %}

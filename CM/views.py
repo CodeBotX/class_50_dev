@@ -109,7 +109,8 @@ def get_nowsubject(classroom):
 # Giáo viên xem bảng tổng kết tuần
 def summary_view (request,classroom):
     classroom = get_object_or_404(Classroom, name=classroom)
-    seats = classroom.seats.all()
+    seats = classroom.seats.all().order_by('row', 'column')
+    schedule = Schedule.objects.filter(classroom=classroom).first()
     students = classroom.student.all()
     subjects = classroom.subjects.all()
     lesson = get_lessons_week(classroom=classroom)
@@ -130,6 +131,8 @@ def summary_view (request,classroom):
         'students':students,
         'subjects':subjects,
         'assign_studentForm': form,
+        'seats':seats,
+        'schedule':schedule
     }
     return render(request, 'summary.html', context)
 
@@ -164,11 +167,12 @@ def detail(request,classroom,student):
             return redirect('classroom', classroom=classroom)
     else:
         form = MarkForm(student=student, subject=subject) if subject else None
-
+    marks = student.marks.filter(student=student,subject=subject)
     context={
         'MarkForm': form,
         'student':student,
-        'subject':subject
+        'subject':subject,
+        'marks': marks
     }
     return render(request, 'details.html', context)
 

@@ -8,6 +8,5 @@ urlpatterns = [
     path('classrooms/', views.add_and_set_classroom, name='smclassroom'),
     path('students/', views.manage_students, name='smstudent'),
     path('timetable/', views.timetable, name='smtimetable'),
-    # path('timetable/', views.show_timetable, name='API_show_timetable'),
     path('rankings/', views.rank_classrooms_by_weekly_grades, name= 'rankclassrooms'),
 ]
