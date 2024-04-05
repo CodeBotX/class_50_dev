@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect
 from .models import *
 from .forms import *
 from django.contrib import messages
@@ -156,7 +156,6 @@ def show_timetable(request):
     })
 
 # 
-
 def timetable(request):
     if request.method == 'POST':
         form_lessons = LessonTimeForm()
