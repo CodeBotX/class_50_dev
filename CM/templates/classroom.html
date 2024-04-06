@@ -29,10 +29,10 @@
                       <div class="p-3 border bg-light text-center d-flex align-items-center justify-content-center font-weight-bold" style="border-radius: 10px; height: 4rem">{{ classroom.name }}</div>
                     </div>
                     <div class="col-5">
-                      <div class="p-3 border bg-light text-center d-flex align-items-center justify-content-center font-weight-bold" style="border-radius: 10px; height: 4rem">{{subject.name}}</div>
+                      <div class="p-3 border bg-light text-center d-flex align-items-center justify-content-center font-weight-bold" style="border-radius: 10px; height: 4rem">{{now_schedule.subject.name}}</div>
                     </div>  
                     <div class="col-3">
-                        <div class="p-3 border bg-light text-center d-flex align-items-center justify-content-center font-weight-bold" style="border-radius: 10px; height: 4rem">{{period}}</div>
+                        <div class="p-3 border bg-light text-center d-flex align-items-center justify-content-center font-weight-bold" style="border-radius: 10px; height: 4rem">Tiết {{now_schedule.period.period}}</div>
                       </div>  
                   </div>
                 </div>
@@ -182,12 +182,8 @@
   {% endif %}
 </script>
 <script src="{% static 'getrealtime.js' %}"></script>
+<script type="text/javascript">
+  var classroomName = "{{ classroom_name }}";
+</script>
 
  {% endblock content %}
-{% comment %} 
-<a href="{% url 'student_detail' student.student_ID %}" 
-
-path('student/<int:student_ID>', views.student_detail, name='student_detail'),
-
-
-{% endcomment %}

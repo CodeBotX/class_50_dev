@@ -27,7 +27,7 @@ trường thứ tự toàn trường
 
     <div class="col-10">
         <div class="row">
-            <div class="col-3">
+            <div class="col-4">
                 <div class="card" style="margin-top: 1rem; margin-bottom: 1rem; height:35rem">
                     <h2 class="card-title text-center">Thông tin lớp</h2>
                     <div class="card-body">   
@@ -52,7 +52,7 @@ trường thứ tự toàn trường
                     </div>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-8">
                 <div class="card" style="margin-top: 1rem; margin-bottom: 1rem; height:35rem">
                     <h2 class="card-title">Sơ Đồ Lớp</h2>
                     
@@ -213,7 +213,6 @@ trường thứ tự toàn trường
                         <thead>
                             <tr>
                                 <th scope="col">Thời gian</th>
-                                <th scope="col">Tiết</th>
                                 <th scope="col">Môn</th>
                                 <th scope="col">Bài dạy</th>
                                 <th scope="col">Nhận xét</th>
@@ -241,7 +240,6 @@ trường thứ tự toàn trường
                             {% for lesson in lessons %}
                             <tr>
                                 <th scope="row">{{lesson.date_time }}</th>
-                                <td>{{lesson.period }}</td>
                                 <td>{{lesson.subject.name}}</td>
                                 <td>{{lesson.name }}</td>
                                 <td>{{lesson.comment}}</td>
@@ -288,31 +286,6 @@ trường thứ tự toàn trường
     {% else %}
     <p>No schedule available for this classroom.</p>
     {% endif %}
-
-    <h1>Lịch học</h1>
-    <div class="lessons-container">
-        {% if lessons %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Môn học</th>
-                        <th>Thời gian bắt đầu</th>
-                        <th>Thời gian kết thúc</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for lesson in lessons %}
-                    <tr>
-                        <td>{{lesson.name}}</td>
-                        <td>{{ lesson.comment }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>Không có tiết học nào để hiển thị.</p>
-        {% endif %}
-    </div>
 
 
 {% endblock content %}
