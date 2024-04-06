@@ -60,17 +60,29 @@
                     <tr>
                         <th scope="col">Môn</th>
                         <th scope="col">Điểm</th>
+                        <th scope="col">Trung bình</th>
                     </tr>
                     </thead>
                     <tbody>
-                        {% if marks %}
-                        {% for mark in marks %}
+                        {% for subject, scores in marks_by_subject.items %}
                         <tr>
-                            <th scope="row">{{ mark.subject.name }}</th>
-                            <td>{{ mark.scores }}<td>
+                            <th scope="row">{{ subject }}</th>
+                            <td>
+                                {% for score in scores %}
+                                {{ score }},
+                                {% endfor %}
+                            </td>
+                            <td >
+                                <span class="average-score"></span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <th scope="row">None</th>
+                            <td>Không có điểm<td>
+                            <td>N/A</td>
                         </tr>
                         {% endfor %}
-                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -79,21 +91,27 @@
     <div class="col-1"></div>   
 </div>
 
+<script>
+    // Thêm mã JavaScript ở đây để tính điểm trung bình và hiển thị nó
+    window.onload = function() {
+        var scoreCells = document.querySelectorAll('td:nth-child(2)');
+    
+        scoreCells.forEach(function(cell) {
+            var scores = cell.textContent.split(',').map(function(score) {
+                return parseFloat(score.trim());
+            });
+    
+            var totalScore = scores.reduce(function(sum, score) {
+                return sum + score;
+            }, 0);
+    
+            var averageScore = totalScore / scores.length;
+    
+            // Chọn phần tử span trong cùng hàng để hiển thị điểm trung bình
+            cell.nextElementSibling.querySelector('.average-score').textContent = averageScore.toFixed(2);
+        });
+    };
+    </script>
 {% comment %} Minh Tiến Add {% endcomment %}
-<table>
-<thead>
-{% for x in student.classroom.subjects.subject %}
-<tr>
-  <td>{{ x.name }}</td>
-  {% comment %} <td>
-    {% for mark in marks %}
-      {% if mark.subject == subject %}
-        {{ mark.scores }}
-      {% endif %}
-    {% endfor %}
-  </td> {% endcomment %}
-</tr>
-</thead>
-</table>
-{% endfor %}
+
 {% endblock content %}
