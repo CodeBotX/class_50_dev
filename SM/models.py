@@ -23,7 +23,7 @@ class Classroom(models.Model):
 # Môn Học Thuộc Lớp Học
 class ClassroomSubject(models.Model):
     classroom = models.ForeignKey(Classroom,on_delete=models.CASCADE,related_name='subjects')
-    subject = models.ManyToManyField(Subject,blank=True,related_name='subjects')
+    subject = models.ManyToManyField(Subject,blank=True,related_name='classroom_subjects')
     def __str__(self):
         return f"{self.classroom} - {self.subject}"
 

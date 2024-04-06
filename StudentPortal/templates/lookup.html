@@ -89,14 +89,16 @@
 <p>ID: {{ student.id }}</p>
 <p>Lớp: {{ student.classroom.name }}</p>
 
-<h2>Điểm Số</h2>
-{% if marks %}
-    <ul>
-    {% for mark in marks %}
-        <li>Môn: {{ mark.subject.name }} - Điểm: {{ mark.scores }}</li>
+
+<h2>Điểm của {{ student.name }}</h2>
+    {% for subject, scores in marks_by_subject.items %}
+        <h3>{{ subject }}:</h3>
+        <ul>
+            {% for score in scores %}
+                <li>{{ score }}</li>
+            {% endfor %}
+        </ul>
+    {% empty %}
+        <p>Không có điểm số nào được tìm thấy.</p>
     {% endfor %}
-    </ul>
-{% else %}
-    <p>Học sinh này chưa có điểm số.</p>
-{% endif %}
 {% endblock content %}
