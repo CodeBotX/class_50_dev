@@ -56,6 +56,7 @@ def classroom(request, classroom):
     seats = classroom.seats.all().order_by('row', 'column') # đưa vào add lesson
     now_schedule = get_nowschedule(classroom=classroom)
     now = datetime.now()
+    now_subject = get_nowsubject(classroom=classroom)
     # Lấy thứ
     day_number = datetime.now().weekday()
     day_name = day_names[day_number]
@@ -131,6 +132,16 @@ def get_nowschedule(classroom):
         return schedule
     else:
         return None
+def get_nowsubject(classroom):
+    dayofweek = datetime.now().weekday()
+    now = datetime.now()
+    # Truy vấn database để tìm tiết học mà thời gian hiện tại nằm giữa thời gian bắt đầu và kết thúc
+    period = LessonTime.objects.filter(start_time__lte=now, end_time__gte=now).first()
+    schedule = Schedule.objects.filter(classroom=classroom,dayofweek=dayofweek, period=period).first()
+    if schedule:
+        return schedule.subject
+    else:
+        return None
 
 
 # Giáo viên xem bảng tổng kết tuần
@@ -182,8 +193,8 @@ def get_lessons_week(classroom):
 # Thêm điểm cho học sinh trong khi đang học ( đang lỗi )
 def detail(request,classroom,student):
     student = get_object_or_404(Student, pk=student)
-    nowschedule = get_nowschedule(classroom=classroom)
-    subject = nowschedule.subject
+    now_schedule = get_nowschedule(classroom=classroom)
+    subject = now_schedule.subject
     if subject is None:
         messages.error(request, 'Bạn không đang trong giờ dạy!')
         return redirect('classroom', classroom=classroom)
