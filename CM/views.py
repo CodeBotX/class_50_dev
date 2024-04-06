@@ -5,16 +5,15 @@ from .models import *
 from django.shortcuts import get_object_or_404, render
 from SM.models import Classroom
 from SM.models import LessonTime 
-from django.http import JsonResponse
 from SM.models import Student
-from SM.models import Mark
 from SM.models import *
-from django.db.models import Avg
-from django.urls import reverse
 from datetime import datetime,timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import RealTimeDataSerializer
+from django.utils.dateparse import parse_time
 day_names = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"]
 
 
@@ -54,7 +53,7 @@ def classroom(request, classroom):
     # Hiển thị học sinh trong lớp
     classroom = get_object_or_404(Classroom, name=classroom) # đưa vào add lesson
     seats = classroom.seats.all().order_by('row', 'column') # đưa vào add lesson
-    nowsubject = get_nowsubject(classroom=classroom)
+    now_schedule = get_nowschedule(classroom=classroom)
     now = datetime.now()
     # Lấy thứ
     day_number = datetime.now().weekday()
@@ -69,7 +68,7 @@ def classroom(request, classroom):
         if form_addlesson.is_valid():
             lesson = form_addlesson.save(commit=False)
             lesson.classroom = classroom
-            lesson.subject = nowsubject
+            lesson.subject = now_schedule.subject
             lesson.save()
             messages.success(request, 'Thành công!')
     else:
@@ -80,28 +79,55 @@ def classroom(request, classroom):
         'classroom': classroom,
         'seats':seats,
         'now':now,
-        'subject':nowsubject,
+        'now_schedule':now_schedule,
         'day_of_week':day_name,
         'form_addlesson': form_addlesson,
     }
     return render(request, 'classroom.html', context)
 
+# API Lấy Tiết Học Hiện Tại 
+class ClassroomScheduleAPIView(APIView):
+    def get(self, request, classroom_name):
+        client_time = request.GET.get('time')
+        if client_time:
+            current_time = parse_time(client_time)
+        else:
+            now = datetime.now()  # Sử dụng datetime.now() để lấy thời gian hiện tại
+            current_time = now.time()
+        
+        classroom = Classroom.objects.get(name=classroom_name)
+        
+        # Xác định ngày trong tuần hiện tại
+        dayofweek = datetime.today().weekday()  # 0 là Thứ Hai, 6 là Chủ Nhật
 
-# test
-def current_time(request):
-    now = datetime.now()
-    return JsonResponse({'time': now})
+        schedule = Schedule.objects.filter(
+            classroom=classroom,
+            dayofweek=dayofweek,
+            period__start_time__lte=current_time,
+            period__end_time__gte=current_time
+        ).first()
 
+        if schedule:
+            data = {
+                'current_period': schedule.period.period,
+                'subject': schedule.subject.name,
+            }
+        else:
+            data = {
+                'message': 'No classes at the moment.'
+            }
+        return Response(data)
+    
 
 # Trả về tiết học ở thời gian thực 
-def get_nowsubject(classroom):
+def get_nowschedule(classroom):
     dayofweek = datetime.now().weekday()
     now = datetime.now()
     # Truy vấn database để tìm tiết học mà thời gian hiện tại nằm giữa thời gian bắt đầu và kết thúc
     period = LessonTime.objects.filter(start_time__lte=now, end_time__gte=now).first()
     schedule = Schedule.objects.filter(classroom=classroom,dayofweek=dayofweek, period=period).first()
     if schedule:
-        return schedule.subject
+        return schedule
     else:
         return None
 
@@ -153,7 +179,8 @@ def get_lessons_week(classroom):
 # Thêm điểm cho học sinh trong khi đang học ( đang lỗi )
 def detail(request,classroom,student):
     student = get_object_or_404(Student, pk=student)
-    subject = get_nowsubject(classroom)
+    nowschedule = get_nowschedule(classroom=classroom)
+    subject = nowschedule.subject
     if subject is None:
         messages.error(request, 'Bạn không đang trong giờ dạy!')
         return redirect('classroom', classroom=classroom)
@@ -177,6 +204,3 @@ def detail(request,classroom,student):
         'marks': marks
     }
     return render(request, 'details.html', context)
-
-
-
