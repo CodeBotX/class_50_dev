@@ -2,25 +2,16 @@
 {% load static %}
 {% block title %}Dạy học{% endblock title %}
 
-{% comment %} 
-
-Hiển thị sơ đồ lớp
-for hàng - for cột 
-add chỗi , đổi chỗ 
-nhập tên bài họ<!-- 
-đánh giá tiết học
-Tiết theo chương trình
-
-
-
-
-Hiển thị form đánh giá Tiết Học
-
-Hiển thị
-Tên lớp,tên môn , Tiết trong ngày
-
-{% endcomment %}
-
+{% block Nav %}
+<div class="dropdown">
+    <button type="button" class="btn btn-outline-primary text-white dropdown-toggle" data-bs-toggle="dropdown">
+        Chuyển hướng
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{%url 'Home'%}">Home</a></li>
+    </ul>
+</div>
+{% endblock Nav %}
 
 {% block content %}
 

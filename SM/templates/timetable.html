@@ -2,7 +2,24 @@
 {% load static %}
 {% block title %}Quản lý thời khoá biểu{% endblock title %}
 
-
+{% block Nav %}
+<div class="dropdown">
+    <button type="button" class="btn btn-outline-primary text-white dropdown-toggle" data-bs-toggle="dropdown">
+        Chuyển hướng
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{%url 'smtimetable'%}">Quản lý TKB</a></li>
+        <li><a class="dropdown-item" href="{%url 'smstudent'%}">Quản lý học sinh</a></li>
+        <li><a class="dropdown-item" href="{%url 'SignUp'%}">Quản lý giáo viên</a></li>
+        <li><a class="dropdown-item" href="{%url 'smclassroom'%}">Quản lý lớp học</a></li>
+        <li><a class="dropdown-item" href="{%url 'smsubject'%}">Quản lý môn học</a></li>
+        <li><a class="dropdown-item" href="{%url 'rankclassrooms'%}">Xếp hạng lớp học</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{%url 'School'%}">Quản trị</a></li>
+        <li><a class="dropdown-item" href="{%url 'Home'%}">Home</a></li>
+    </ul>
+</div>
+{% endblock Nav %}
 
 {% block content %}
 
