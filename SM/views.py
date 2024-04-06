@@ -175,7 +175,14 @@ def timetable(request):
         form_schedules = ScheduleForm(request.POST)
     classrooms = Classroom.objects.all()
     classroom_name = request.GET.get('classroom_name')
-    schedule = None
+    schedules = None
+    schedules_2= None
+    schedules_3 = None
+    schedules_4 = None
+    schedules_5 = None
+    schedules_6 = None
+    schedules_7 = None
+    schedules_8 = None
     selected_classroom = None
 
     if classroom_name:
