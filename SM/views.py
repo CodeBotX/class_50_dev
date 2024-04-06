@@ -148,14 +148,13 @@ def show_timetable(request):
         selected_classroom = Classroom.objects.filter(classroom__name=classroom_name).first()
         if selected_classroom:
             schedule = Schedule.objects.filter(classroom=selected_classroom)
-
     return render(request, 'timetable.html', {
         'classrooms': classrooms,
         'selected_classroom': selected_classroom,
         'schedule': schedule,
     })
 
-# 
+# Đang sử dụng
 def timetable(request):
 
     if request.method == 'POST':
@@ -182,15 +181,30 @@ def timetable(request):
     if classroom_name:
         selected_classroom = Classroom.objects.filter(name=classroom_name).first()
         if selected_classroom:
-            schedule = Schedule.objects.filter(classroom=selected_classroom)
-
+            # schedule = Schedule.objects.filter(classroom=selected_classroom)
+            schedules = Schedule.objects.filter(classroom=selected_classroom).order_by('dayofweek', 'period__start_time')
+            schedules_2 = Schedule.objects.filter(classroom=selected_classroom, dayofweek=0).order_by('period__start_time')
+            schedules_3 = Schedule.objects.filter(classroom=selected_classroom, dayofweek=1).order_by('period__start_time')
+            schedules_4 = Schedule.objects.filter(classroom=selected_classroom, dayofweek=2).order_by('period__start_time')
+            schedules_5 = Schedule.objects.filter(classroom=selected_classroom, dayofweek=3).order_by('period__start_time')
+            schedules_6 = Schedule.objects.filter(classroom=selected_classroom, dayofweek=4).order_by('period__start_time')
+            schedules_7 = Schedule.objects.filter(classroom=selected_classroom, dayofweek=5).order_by('period__start_time')
+            schedules_8 = Schedule.objects.filter(classroom=selected_classroom, dayofweek=6).order_by('period__start_time')
     return render(request, 'timetable.html', {
         'form_lessons': form_lessons,
         'form_schedules': form_schedules,
         'classrooms': classrooms,
         'selected_classroom': selected_classroom,
-        'schedule': schedule,
+        'schedule': schedules,
+        'schedule_2': schedules_2,
+        'schedule_3': schedules_3,
+        'schedule_4': schedules_4,
+        'schedule_5': schedules_5,
+        'schedule_6': schedules_6,
+        'schedule_7': schedules_7,
+        'schedule_8': schedules_8,
     })
+
     
         
 def rank_classrooms_by_weekly_grades(request):

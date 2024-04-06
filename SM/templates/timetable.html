@@ -155,73 +155,24 @@
                             </div>
                         </div>
                         <form>
-                            {% comment %} {% if schedule %}
+                            {% if selected_classroom %}
 
-                            <table class="table">
+                            <table class="table table-bordered table-responsive">
                                 <thead>
                                     <tr>
                                         <th>{{ selected_classroom.name }}</th>
-                                        {% for entry in schedule %}
-                                        <th scope="col">{{ entry.period.period }}</th>
-                                        {% endfor %}
+                                        <th>Thứ 2</th>
+                                        <th>Thứ 3</th>
+                                        <th>Thứ 4</th>
+                                        <th>Thứ 5</th>
+                                        <th>Thứ 6</th>
+                                        <th>Thứ 7</th>
+                                        <th>Chủ Nhật</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for entry in schedule %}
-                                    <tr>
-                                        <th scope="col">Thứ 2</th>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for entry in schedule %}
-                                    <tr>
-                                        <th scope="col">Thứ 3</th>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for entry in schedule %}
-                                    <tr>
-                                        <th scope="col">Thứ 4</th>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for entry in schedule %}
-                                    <tr>
-                                        <th scope="col">Thứ 5</th>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for entry in schedule %}
-                                    <tr>
-                                        <th scope="col">Thứ 6</th>
-                                    </tr>
-                                    {% endfor %}
+                                    
                                 </tbody>
-                            </table>
-                            {% endif %} {% endcomment %}
-                            
-                            {% if schedule %}
-                            <table class="table table-bordered table-responsive">
-                                <tr>
-                                    <th>{{ selected_classroom.name }}</th>
-                                    <th>Thứ 2</th>
-                                    <th>Thứ 3</th>
-                                    <th>Thứ 4</th>
-                                    <th>Thứ 5</th>
-                                    <th>Thứ 6</th>
-                                    <th>Thứ 7</th>
-                                    <th>Chủ Nhật</th>
-                                </tr>
-                                {% for period in periods %}
-                                    <tr>
-                                        <th>Tiết {{ period.period }}</th>
-                                        {% for day in days %}
-                                            <td>
-                                                {% for entry in schedule %}
-                                                    {% if entry.dayofweek == day and entry.period.period == period.period %}
-                                                        {{ entry.subject.name }}
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </td>
-                                        {% endfor %}
-                                    </tr>
-                                {% endfor %}
                             </table>
                             {% endif %}
                         </form>
@@ -256,4 +207,39 @@
     {% endif %}
 
     {% comment %} Minh Tiến Add {% endcomment %}
+    <h1>Thêm lịch học</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form_lessons.as_p }}
+        <input type="hidden" name="action" value="lesson">
+        <button type="submit">Thêm lịch học</button>
+    </form>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form_schedules.as_p }}
+        <input type="hidden" name="action" value="schedule">
+        <button type="submit">Thêm lịch học !</button>
+    </form>
+
+    {% for message in messages %}
+        <div>{{ message }}</div>
+    {% endfor %}
+
+<br>
+<br>
+
+{% comment %} {% if selected_classroom %}
+    <h1>{{ selected_classroom.name }}</h1>
+    <h2>Thời khoá biểu cho Thứ 7:</h2>
+    <ul>
+        {% for item in schedule_7 %}
+            <li>
+                <p>Tiết: {{ item.period.period }}</p>
+                <p>Thời gian: {{ item.period.start_time|time:"HH:i" }} - {{ item.period.end_time|time:"HH:i" }}</p>
+                <p>Môn: {{ item.subject.name }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %} {% endcomment %}
 {% endblock content %}
