@@ -212,7 +212,7 @@ trường thứ tự toàn trường
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Thứ</th>
+                                <th scope="col">Thời gian</th>
                                 <th scope="col">Tiết</th>
                                 <th scope="col">Môn</th>
                                 <th scope="col">Bài dạy</th>
@@ -237,16 +237,18 @@ trường thứ tự toàn trường
                                         <td></td>
                                     </tr>
                             {% endif %} {% endcomment %}
-
-                            {% for Lessons in Lessons %}
+                            {% if lessons %}
+                            {% for lesson in lessons %}
                             <tr>
-                                <th scope="row">{{Lessons.date_time }}</th>
-                                <td>{{Lessons.period }}</td>
-                                <td>{{Lessons.subject}}</td>
-                                <td>{{Lessons.name }}</td>
-                                <td>{{Lessons.comment}}</td>
+                                <th scope="row">{{lesson.date_time }}</th>
+                                <td>{{lesson.period }}</td>
+                                <td>{{lesson.subject.name}}</td>
+                                <td>{{lesson.name }}</td>
+                                <td>{{lesson.comment}}</td>
                             </tr>
                             {% endfor %}
+                            {% endif %}
+
 
                         </tbody>
                     </table>
@@ -264,31 +266,6 @@ trường thứ tự toàn trường
 
 <h1>Summary View</h1>
 
-    <h2>Seats</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Row</th>
-                <th>Column</th>
-                <th>Student</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for seat in seats %}
-            <tr>
-                <td>{{ seat.row }}</td>
-                <td>{{ seat.column }}</td>
-                <td>
-                    {% if seat.student %}
-                        {{ seat.student.name }}
-                    {% else %}
-                        Empty
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 
     <h2>Schedule</h2>
     {% if schedule %}
