@@ -60,7 +60,6 @@
                     <tr>
                         <th scope="col">Môn</th>
                         <th scope="col">Điểm</th>
-                        <th scope="col">Trung bình</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -72,15 +71,6 @@
                                 {{ score }},
                                 {% endfor %}
                             </td>
-                            <td >
-                                <span class="average-score"></span>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <th scope="row">None</th>
-                            <td>Không có điểm<td>
-                            <td>N/A</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -91,27 +81,6 @@
     <div class="col-1"></div>   
 </div>
 
-<script>
-    // Thêm mã JavaScript ở đây để tính điểm trung bình và hiển thị nó
-    window.onload = function() {
-        var scoreCells = document.querySelectorAll('td:nth-child(2)');
-    
-        scoreCells.forEach(function(cell) {
-            var scores = cell.textContent.split(',').map(function(score) {
-                return parseFloat(score.trim());
-            });
-    
-            var totalScore = scores.reduce(function(sum, score) {
-                return sum + score;
-            }, 0);
-    
-            var averageScore = totalScore / scores.length;
-    
-            // Chọn phần tử span trong cùng hàng để hiển thị điểm trung bình
-            cell.nextElementSibling.querySelector('.average-score').textContent = averageScore.toFixed(2);
-        });
-    };
-    </script>
 {% comment %} Minh Tiến Add {% endcomment %}
 
 {% endblock content %}

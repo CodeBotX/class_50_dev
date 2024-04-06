@@ -157,21 +157,62 @@
                         <form>
                             {% if selected_classroom %}
 
-                            <table class="table table-bordered table-responsive">
+                            <table class="table table-bordered table-responsive" style="background-color: white">
                                 <thead>
                                     <tr>
                                         <th>{{ selected_classroom.name }}</th>
-                                        <th>Thứ 2</th>
-                                        <th>Thứ 3</th>
-                                        <th>Thứ 4</th>
-                                        <th>Thứ 5</th>
-                                        <th>Thứ 6</th>
-                                        <th>Thứ 7</th>
-                                        <th>Chủ Nhật</th>
+                                        <th id="tiet_1">Tiết 1</th>
+                                        <th id="tiet_2">Tiết 2</th>
+                                        <th id="tiet_3">Tiết 3</th>
+                                        <th id="tiet_4">Tiết 4</th>
+                                        <th id="tiet_5">Tiết 5</th>
+                                        <th id="tiet_6">Tiết 6</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    <tr>
+                                        <th>Thứ 2</th>
+                                        {% for item in schedule_2 %}
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <th>Thứ 3</th>
+                                        {% for item in schedule_3 %}
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <th>Thứ 4</th>
+                                        {% for item in schedule_4 %}
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <th>Thứ 5</th>
+                                        {% for item in schedule_5 %}
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <th>Thứ 6</th>
+                                        {% for item in schedule_6 %}
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <th>Thứ 7</th>
+                                        {% for item in schedule_7 %}
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <th>Chủ nhật</th>
+                                        {% for item in schedule_8 %}
+
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
                                 </tbody>
                             </table>
                             {% endif %}
@@ -185,49 +226,6 @@
 </div>
 
 {% comment %} Minh Tiến add  {% endcomment %}
-<h1>Chọn Lớp Học</h1>
-    <form action="" method="get">
-        <select name="classroom_name" onchange="this.form.submit()">
-            <option value="">Chọn Lớp Học...</option>
-            {% for classroom in classrooms %}
-                <option value="{{ classroom.name }}" {% if selected_classroom and selected_classroom.name == classroom.name %} selected {% endif %}>
-                    {{ classroom.name }}
-                </option>
-            {% endfor %}
-        </select>
-    </form>
-
-    {% if schedule %}
-        <h2>Thời Khóa Biểu: {{ selected_classroom.name }}</h2>
-        <ul>
-            {% for entry in schedule %}
-                <li>{{ entry.dayofweek }} - Tiết {{ entry.period.period }}: {{ entry.subject.name }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
-    {% comment %} Minh Tiến Add {% endcomment %}
-    <h1>Thêm lịch học</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form_lessons.as_p }}
-        <input type="hidden" name="action" value="lesson">
-        <button type="submit">Thêm lịch học</button>
-    </form>
-
-    <form method="POST">
-        {% csrf_token %}
-        {{ form_schedules.as_p }}
-        <input type="hidden" name="action" value="schedule">
-        <button type="submit">Thêm lịch học !</button>
-    </form>
-
-    {% for message in messages %}
-        <div>{{ message }}</div>
-    {% endfor %}
-
-<br>
-<br>
 
 {% comment %} {% if selected_classroom %}
     <h1>{{ selected_classroom.name }}</h1>
@@ -242,4 +240,5 @@
         {% endfor %}
     </ul>
 {% endif %} {% endcomment %}
+
 {% endblock content %}

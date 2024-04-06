@@ -69,7 +69,7 @@ class Schedule(models.Model):
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='timetable')
     dayofweek = models.IntegerField(choices=DAY_CHOICES)
     period = models.ForeignKey(LessonTime, on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE,default="Trống")
     class Meta:
         # Đảm bảo rằng chỉ có một bản ghi cho mỗi cặp classroom, dayofweek và period
         unique_together = ['classroom', 'dayofweek', 'period']
