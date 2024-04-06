@@ -2,7 +2,24 @@
 {% load static %}
 {% block title %}Quản lý thời khoá biểu{% endblock title %}
 
-
+{% block Nav %}
+<div class="dropdown">
+    <button type="button" class="btn btn-outline-primary text-white dropdown-toggle" data-bs-toggle="dropdown">
+        Chuyển hướng
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{%url 'smtimetable'%}">Quản lý TKB</a></li>
+        <li><a class="dropdown-item" href="{%url 'smstudent'%}">Quản lý học sinh</a></li>
+        <li><a class="dropdown-item" href="{%url 'SignUp'%}">Quản lý giáo viên</a></li>
+        <li><a class="dropdown-item" href="{%url 'smclassroom'%}">Quản lý lớp học</a></li>
+        <li><a class="dropdown-item" href="{%url 'smsubject'%}">Quản lý môn học</a></li>
+        <li><a class="dropdown-item" href="{%url 'rankclassrooms'%}">Xếp hạng lớp học</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{%url 'School'%}">Quản trị</a></li>
+        <li><a class="dropdown-item" href="{%url 'Home'%}">Home</a></li>
+    </ul>
+</div>
+{% endblock Nav %}
 
 {% block content %}
 
@@ -51,7 +68,7 @@
                 <div class="card" style="background-color: #07478D">
                     <div class="card-body">
                         <h2 class="card-title text-white" style="margin-top: 0.5rem;">Xếp thời khoá biểu</h2>
-                        <form method="POST" action="schedule">
+                        <form method="POST">
                             {% csrf_token %}
                             <table class="table">
                                 <thead>
@@ -79,7 +96,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <input type="hidden" name="action" value="lesson">
+                            <input type="hidden" name="action" value="schedule">
                             <button id="openModalBtn" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Thêm</button>
                         </form>
                     </div>
@@ -87,7 +104,7 @@
                 <div class="card" style="background-color: #07478D; margin-top: 1rem">
                     <div class="card-body">
                         <h2 class="card-title text-white" style="margin-top: 0.5rem;">Xếp thời gian</h2>
-                        <form method="POST" action="lesson">
+                        <form method="POST">
                             {% csrf_token %}
                             <table class="table">
                                 <thead>
@@ -138,73 +155,65 @@
                             </div>
                         </div>
                         <form>
-                            {% comment %} {% if schedule %}
+                            {% if selected_classroom %}
 
-                            <table class="table">
+                            <table class="table table-bordered table-responsive" style="background-color: white">
                                 <thead>
                                     <tr>
                                         <th>{{ selected_classroom.name }}</th>
-                                        {% for entry in schedule %}
-                                        <th scope="col">{{ entry.period.period }}</th>
-                                        {% endfor %}
+                                        <th id="tiet_1">Tiết 1</th>
+                                        <th id="tiet_2">Tiết 2</th>
+                                        <th id="tiet_3">Tiết 3</th>
+                                        <th id="tiet_4">Tiết 4</th>
+                                        <th id="tiet_5">Tiết 5</th>
+                                        <th id="tiet_6">Tiết 6</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for entry in schedule %}
                                     <tr>
-                                        <th scope="col">Thứ 2</th>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for entry in schedule %}
-                                    <tr>
-                                        <th scope="col">Thứ 3</th>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for entry in schedule %}
-                                    <tr>
-                                        <th scope="col">Thứ 4</th>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for entry in schedule %}
-                                    <tr>
-                                        <th scope="col">Thứ 5</th>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for entry in schedule %}
-                                    <tr>
-                                        <th scope="col">Thứ 6</th>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            {% endif %} {% endcomment %}
-                            
-                            {% if schedule %}
-                            <table class="table table-bordered table-responsive">
-                                <tr>
-                                    <th>{{ selected_classroom.name }}</th>
-                                    <th>Thứ 2</th>
-                                    <th>Thứ 3</th>
-                                    <th>Thứ 4</th>
-                                    <th>Thứ 5</th>
-                                    <th>Thứ 6</th>
-                                    <th>Thứ 7</th>
-                                    <th>Chủ Nhật</th>
-                                </tr>
-                                {% for period in periods %}
-                                    <tr>
-                                        <th>Tiết {{ period.period }}</th>
-                                        {% for day in days %}
-                                            <td>
-                                                {% for entry in schedule %}
-                                                    {% if entry.dayofweek == day and entry.period.period == period.period %}
-                                                        {{ entry.subject.name }}
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </td>
+                                        <th>Thứ 2</th>
+                                        {% for item in schedule_2 %}
+                                        <td> {{ item.subject.name }}</td>
                                         {% endfor %}
                                     </tr>
-                                {% endfor %}
+                                    <tr>
+                                        <th>Thứ 3</th>
+                                        {% for item in schedule_3 %}
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <th>Thứ 4</th>
+                                        {% for item in schedule_4 %}
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <th>Thứ 5</th>
+                                        {% for item in schedule_5 %}
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <th>Thứ 6</th>
+                                        {% for item in schedule_6 %}
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <th>Thứ 7</th>
+                                        {% for item in schedule_7 %}
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        <th>Chủ nhật</th>
+                                        {% for item in schedule_8 %}
+
+                                        <td> {{ item.subject.name }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                </tbody>
                             </table>
                             {% endif %}
                         </form>
@@ -217,51 +226,8 @@
 </div>
 
 {% comment %} Minh Tiến add  {% endcomment %}
-<h1>Chọn Lớp Học</h1>
-    <form action="" method="get">
-        <select name="classroom_name" onchange="this.form.submit()">
-            <option value="">Chọn Lớp Học...</option>
-            {% for classroom in classrooms %}
-                <option value="{{ classroom.name }}" {% if selected_classroom and selected_classroom.name == classroom.name %} selected {% endif %}>
-                    {{ classroom.name }}
-                </option>
-            {% endfor %}
-        </select>
-    </form>
 
-    {% if schedule %}
-        <h2>Thời Khóa Biểu: {{ selected_classroom.name }}</h2>
-        <ul>
-            {% for entry in schedule %}
-                <li>{{ entry.dayofweek }} - Tiết {{ entry.period.period }}: {{ entry.subject.name }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
-    {% comment %} Minh Tiến Add {% endcomment %}
-    <h1>Thêm lịch học</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form_lessons.as_p }}
-        <input type="hidden" name="action" value="lesson">
-        <button type="submit">Thêm lịch học</button>
-    </form>
-
-    <form method="POST">
-        {% csrf_token %}
-        {{ form_schedules.as_p }}
-        <input type="hidden" name="action" value="schedule">
-        <button type="submit">Thêm lịch học !</button>
-    </form>
-
-    {% for message in messages %}
-        <div>{{ message }}</div>
-    {% endfor %}
-
-<br>
-<br>
-
-{% if selected_classroom %}
+{% comment %} {% if selected_classroom %}
     <h1>{{ selected_classroom.name }}</h1>
     <h2>Thời khoá biểu cho Thứ 7:</h2>
     <ul>
@@ -273,5 +239,6 @@
             </li>
         {% endfor %}
     </ul>
-{% endif %}
+{% endif %} {% endcomment %}
+
 {% endblock content %}

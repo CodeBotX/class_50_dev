@@ -8,7 +8,16 @@ trường thứ tự toàn trường
 {% endcomment %}
 
 
-
+{% block Nav %}
+<div class="dropdown">
+    <button type="button" class="btn btn-outline-primary text-white dropdown-toggle" data-bs-toggle="dropdown">
+        Chuyển hướng
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{%url 'Home'%}">Home</a></li>
+    </ul>
+</div>
+{% endblock Nav %}
 
 {% block content %}
 
@@ -18,7 +27,7 @@ trường thứ tự toàn trường
 
     <div class="col-10">
         <div class="row">
-            <div class="col-3">
+            <div class="col-4">
                 <div class="card" style="margin-top: 1rem; margin-bottom: 1rem; height:35rem">
                     <h2 class="card-title text-center">Thông tin lớp</h2>
                     <div class="card-body">   
@@ -35,7 +44,7 @@ trường thứ tự toàn trường
                                 </tr>
                                 <tr>
                                     <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Trung bình thi đua</th>
-                                    <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ classroom.average_grade }}</td>
+                                    <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{avglessons}}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -43,7 +52,7 @@ trường thứ tự toàn trường
                     </div>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-8">
                 <div class="card" style="margin-top: 1rem; margin-bottom: 1rem; height:35rem">
                     <h2 class="card-title">Sơ Đồ Lớp</h2>
                     
@@ -69,46 +78,45 @@ trường thứ tự toàn trường
                                     </table>
                                 </form>
                             </div>
-                        
-                            <table class="table table-bordered table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>#</th><!-- Thẻ trống để chứa ký tự trắng cho góc trên bên trái -->
-                                        {% for column in columns %}
-                                        <th class="text-center">{{ column }}</th>
-                                        {% endfor %}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for row in rows %}
-                                    <tr>
-                                        <th>{{ row }}</th><!-- Hiển thị số hàng ở cột đầu tiên của mỗi hàng -->
-                                        {% for column in columns %}
-                                        <td> 
-                                            {% for seat in seats %}
-                                                {% if seat.row == row and seat.column == column %}
-                                                    {% if not seat.student %}
-                                                    <div class="d-flex justify-content-center">
-                                                        <button class="btn btn-danger text-white" style="width:100%">Trống</button>
-                                                    </div>
-                                                    
-                
-                                                    {% else %}
-                                                    <div class="d-flex justify-content-center">
-                                                    <a class="btn btn-primary text-white" href="{% url 'details' classroom.name seat.student.id %}" style="width:100%">{{ seat.student.name }}</a>
-                                                    </div> 
-                                                    {% endif %}
-                                                {% endif %}
+                                <table class="table table-bordered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th><!-- Thẻ trống để chứa ký tự trắng cho góc trên bên trái -->
+                                            {% for column in columns %}
+                                            <th class="text-center">{{ column }}</th>
                                             {% endfor %}
-                                        </td>
-                
-                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in rows %}
+                                        <tr>
+                                            <th>{{ row }}</th><!-- Hiển thị số hàng ở cột đầu tiên của mỗi hàng -->
+                                            {% for column in columns %}
+                                            <td> 
+                                                {% for seat in seats %}
+                                                    {% if seat.row == row and seat.column == column %}
+                                                        {% if not seat.student %}
+                                                        <div class="d-flex justify-content-center">
+                                                            <button class="btn btn-danger text-white" style="width:100%">Trống</button>
+                                                        </div>
+                                                        
+                    
+                                                        {% else %}
+                                                        <div class="d-flex justify-content-center">
+                                                        <a class="btn btn-primary text-white text-truncate" style="width:100%">{{ seat.student.name }}</a>
+                                                        </div> 
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                    
+                                            
+                                            {% endfor %}
+                                        </tr>
                                         {% endfor %}
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                
-                            </table>
+                                    </tbody>
+                    
+                                </table>
                         </div> 
                     </div>
         
@@ -119,17 +127,84 @@ trường thứ tự toàn trường
     <div class="col-1"></div>   
 </div>
 
-<div class="row" style="margin-top: 1%">
+<div class="row">
     <div class="col-1"></div>
     <div class="col-10">
-        <div class="card" style="background-color: #07478D">
+        {% comment %} <div class="card" style="background-color: #07478D">
+            <div class="card-body">
+                <h2 class="card-title text-white" style="margin-top: 0.5rem;">Thời khoá biểu</h2>
+                <form>
+                    
+                    {% if schedule %}
+                    <table class="table table-bordered table-responsive" style="background-color: white">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th id="tiet_1">Tiết 1</th>
+                                <th id="tiet_2">Tiết 2</th>
+                                <th id="tiet_3">Tiết 3</th>
+                                <th id="tiet_4">Tiết 4</th>
+                                <th id="tiet_5">Tiết 5</th>
+                                <th id="tiet_6">Tiết 6</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Thứ 2</th>
+                                {% for item in schedule_2 %}
+                                <td> {{ item.subject.name }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th>Thứ 3</th>
+                                {% for item in schedule_3 %}
+                                <td> {{ item.subject.name }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th>Thứ 4</th>
+                                {% for item in schedule_4 %}
+                                <td> {{ item.subject.name }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th>Thứ 5</th>
+                                {% for item in schedule_5 %}
+                                <td> {{ item.subject.name }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th>Thứ 6</th>
+                                {% for item in schedule_6 %}
+                                <td> {{ item.subject.name }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th>Thứ 7</th>
+                                {% for item in schedule_7 %}
+                                <td> {{ item.subject.name }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th>Chủ nhật</th>
+                                {% for item in schedule_8 %}
+
+                                <td> {{ item.subject.name }}</td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </form>
+            </div>
+        </div> {% endcomment %}
+        <div class="card" style="background-color: #07478D; margin-top:2rem">
             <div class="card-body">
                     <h2 class="card-title text-white" style="margin-top: 1rem;">Thông tin tuần học</h2>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Thứ</th>
-                                <th scope="col">Tiết</th>
+                                <th scope="col">Thời gian</th>
                                 <th scope="col">Môn</th>
                                 <th scope="col">Bài dạy</th>
                                 <th scope="col">Nhận xét</th>
@@ -137,32 +212,17 @@ trường thứ tự toàn trường
                             </tr>
                         </thead>
                         <tbody>
-
-                            {% comment %} {% if mark_record %}
-                                {% for mark in mark_record.Mark %}
-                                    <tr>
-                                        <th scope="row">Điểm</th>
-                                        <td>{{ mark.Mark }}</td>
-                                        <td></td>
-                                    </tr>
-                                {% endfor %}
-                            {% else %}
-                                    <tr>
-                                        <th scope="row">Điểm</th>
-                                        <td>Không có thông tin điểm cho học sinh này.</td>
-                                        <td></td>
-                                    </tr>
-                            {% endif %} {% endcomment %}
-
-                            {% for Lessons in Lessons %}
+                            {% if lessons %}
+                            {% for lesson in lessons %}
                             <tr>
-                                <th scope="row">{{Lessons.date_time }}</th>
-                                <td>{{Lessons.period }}</td>
-                                <td>{{Lessons.subject}}</td>
-                                <td>{{Lessons.name }}</td>
-                                <td>{{Lessons.comment}}</td>
+                                <th scope="row">{{lesson.date_time }}</th>
+                                <td>{{lesson.subject.name}}</td>
+                                <td>{{lesson.name }}</td>
+                                <td>{{lesson.comment}}</td>
                             </tr>
                             {% endfor %}
+                            {% endif %}
+
 
                         </tbody>
                     </table>
@@ -170,6 +230,7 @@ trường thứ tự toàn trường
 
             </div>
         </div>
+        
     </div> 
     <div class="col-1"></div>   
 </div>
@@ -177,33 +238,8 @@ trường thứ tự toàn trường
 
 {% comment %} Minh Tiến Add {% endcomment %}
 
-<h1>Summary View</h1>
+{% comment %} <h1>Summary View</h1>
 
-    <h2>Seats</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Row</th>
-                <th>Column</th>
-                <th>Student</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for seat in seats %}
-            <tr>
-                <td>{{ seat.row }}</td>
-                <td>{{ seat.column }}</td>
-                <td>
-                    {% if seat.student %}
-                        {{ seat.student.name }}
-                    {% else %}
-                        Empty
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 
     <h2>Schedule</h2>
     {% if schedule %}
@@ -253,7 +289,7 @@ trường thứ tự toàn trường
     </div>
 
 {% comment %} Minh Tiến ADD {% endcomment %}
-{{avglessons}}
+{% comment %} {{avglessons}} {% endcomment %}
 
 
 {% endblock content %}

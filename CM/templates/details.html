@@ -2,18 +2,16 @@
 {% load static %}
 {% block title %}Chi tiết{% endblock title %}
 
-{% comment %} 
-Tên học sinh 
-( ảnh của học sinh, nếu còn 2 ngày)
-Hiển thị điểm của học sinh thuộc môn học đang giảng dạy ( tất cả, không lọc )
-{% endcomment %}
-
-{% comment %} 
-khi nhấn vào học sinh sẽ ra cái này
-add điểm của học sinh, 
-Form add điểm (học sinh được lấy tự động)
--> cần 1 trường nhập điểm và nút save
-{% endcomment %}
+{% block Nav %}
+<div class="dropdown">
+    <button type="button" class="btn btn-outline-primary text-white dropdown-toggle" data-bs-toggle="dropdown">
+        Chuyển hướng
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{%url 'Home'%}">Home</a></li>
+    </ul>
+</div>
+{% endblock Nav %}
 
 {% block content %}
 <div class="row">

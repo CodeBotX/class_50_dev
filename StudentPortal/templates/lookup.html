@@ -39,7 +39,7 @@
                     </tr>
                     <tr>
                         <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Lớp</th>
-                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.classroom }}</td>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.classroom.name }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -63,18 +63,16 @@
                     </tr>
                     </thead>
                     <tbody>
+                        {% for subject, scores in marks_by_subject.items %}
                         <tr>
-                            {% for subject in subjects %}
-                                <th scope="row">{{ subject.name }}</th>
-                                    {% if marks %}
-                                        {% for mark in marks %}
-                                            <td>{{ mark.Mark }}<td>
-                                        {% endfor %}
-                                    {% else %}
-                                        <td>chưa có điểm<td>
-                                    {% endif %}
-                            {% endfor %}
+                            <th scope="row">{{ subject }}</th>
+                            <td>
+                                {% for score in scores %}
+                                {{ score }},
+                                {% endfor %}
+                            </td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -84,21 +82,5 @@
 </div>
 
 {% comment %} Minh Tiến Add {% endcomment %}
-<h1>Thông Tin Học Sinh</h1>
-<p>Tên: {{ student.name }}</p>
-<p>ID: {{ student.id }}</p>
-<p>Lớp: {{ student.classroom.name }}</p>
 
-
-<h2>Điểm của {{ student.name }}</h2>
-    {% for subject, scores in marks_by_subject.items %}
-        <h3>{{ subject }}:</h3>
-        <ul>
-            {% for score in scores %}
-                <li>{{ score }}</li>
-            {% endfor %}
-        </ul>
-    {% empty %}
-        <p>Không có điểm số nào được tìm thấy.</p>
-    {% endfor %}
 {% endblock content %}
