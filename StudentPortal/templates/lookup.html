@@ -80,4 +80,20 @@
 </div>
 
 {% comment %} Minh Tiến Add {% endcomment %}
+<table>
+<thead>
+{% for x in student.classroom.subjects.subject %}
+<tr>
+  <td>{{ x.name }}</td>
+  {% comment %} <td>
+    {% for mark in marks %}
+      {% if mark.subject == subject %}
+        {{ mark.scores }}
+      {% endif %}
+    {% endfor %}
+  </td> {% endcomment %}
+</tr>
+</thead>
+</table>
+{% endfor %}
 {% endblock content %}

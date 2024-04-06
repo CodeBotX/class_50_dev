@@ -208,4 +208,4 @@ def rank_classrooms_by_weekly_grades(request):
     # Sắp xếp các lớp học theo điểm trung bình từ cao đến thấp
     ranked_classrooms = sorted(classroom_grades, key=lambda x: x['average_grade'], reverse=True)
     return render(request, 'rank_classrooms.html', {'ranked_classrooms': ranked_classrooms})
-    
+

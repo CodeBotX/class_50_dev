@@ -44,7 +44,7 @@ trường thứ tự toàn trường
                                 </tr>
                                 <tr>
                                     <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Trung bình thi đua</th>
-                                    <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ classroom.average_grade }}</td>
+                                    <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{avglessons}}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -78,46 +78,45 @@ trường thứ tự toàn trường
                                     </table>
                                 </form>
                             </div>
-                        
-                            <table class="table table-bordered table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>#</th><!-- Thẻ trống để chứa ký tự trắng cho góc trên bên trái -->
-                                        {% for column in columns %}
-                                        <th class="text-center">{{ column }}</th>
-                                        {% endfor %}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for row in rows %}
-                                    <tr>
-                                        <th>{{ row }}</th><!-- Hiển thị số hàng ở cột đầu tiên của mỗi hàng -->
-                                        {% for column in columns %}
-                                        <td> 
-                                            {% for seat in seats %}
-                                                {% if seat.row == row and seat.column == column %}
-                                                    {% if not seat.student %}
-                                                    <div class="d-flex justify-content-center">
-                                                        <button class="btn btn-danger text-white" style="width:100%">Trống</button>
-                                                    </div>
-                                                    
-                
-                                                    {% else %}
-                                                    <div class="d-flex justify-content-center">
-                                                    <a class="btn btn-primary text-white" style="width:100%">{{ seat.student.name }}</a>
-                                                    </div> 
-                                                    {% endif %}
-                                                {% endif %}
+                                <table class="table table-bordered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th><!-- Thẻ trống để chứa ký tự trắng cho góc trên bên trái -->
+                                            {% for column in columns %}
+                                            <th class="text-center">{{ column }}</th>
                                             {% endfor %}
-                                        </td>
-                
-                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in rows %}
+                                        <tr>
+                                            <th>{{ row }}</th><!-- Hiển thị số hàng ở cột đầu tiên của mỗi hàng -->
+                                            {% for column in columns %}
+                                            <td> 
+                                                {% for seat in seats %}
+                                                    {% if seat.row == row and seat.column == column %}
+                                                        {% if not seat.student %}
+                                                        <div class="d-flex justify-content-center">
+                                                            <button class="btn btn-danger text-white" style="width:100%">Trống</button>
+                                                        </div>
+                                                        
+                    
+                                                        {% else %}
+                                                        <div class="d-flex justify-content-center">
+                                                        <a class="btn btn-primary text-white text-truncate" style="width:100%">{{ seat.student.name }}</a>
+                                                        </div> 
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                    
+                                            
+                                            {% endfor %}
+                                        </tr>
                                         {% endfor %}
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                
-                            </table>
+                                    </tbody>
+                    
+                                </table>
                         </div> 
                     </div>
         
@@ -287,5 +286,32 @@ trường thứ tự toàn trường
     <p>No schedule available for this classroom.</p>
     {% endif %}
 
+    <h1>Lịch học</h1>
+    <div class="lessons-container">
+        {% if lessons %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Môn học</th>
+                        <th>Thời gian bắt đầu</th>
+                        <th>Thời gian kết thúc</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for lesson in lessons %}
+                    <tr>
+                        <td>{{lesson.name}}</td>
+                        <td>{{ lesson.comment }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Không có tiết học nào để hiển thị.</p>
+        {% endif %}
+    </div>
+
+{% comment %} Minh Tiến ADD {% endcomment %}
+{{avglessons}}
 
 {% endblock content %}
