@@ -12,8 +12,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import RealTimeDataSerializer
+from django.db.models import Avg
 from django.utils.dateparse import parse_time
+from django.utils import timezone
 day_names = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"]
 
 
@@ -140,6 +141,7 @@ def summary_view (request,classroom):
     students = classroom.student.all()
     subjects = classroom.subjects.all()
     lesson = get_lessons_week(classroom=classroom)
+    avglessons = get_avglessons(classroom=classroom)
     # Đổi chỗ
     if request.method == 'POST':
         form = AssignStudentForm(classroom, request.POST)  
@@ -161,6 +163,7 @@ def summary_view (request,classroom):
         'schedule':schedule,
         'rows': range(1, 6),
         'columns': range(1, 9),
+        'avglessons':avglessons
     }
     return render(request, 'summary.html', context)
 
@@ -204,3 +207,16 @@ def detail(request,classroom,student):
         'marks': marks
     }
     return render(request, 'details.html', context)
+
+
+def get_avglessons(classroom):  
+    now = timezone.now()  
+    # Lấy ngày đầu tuần (thứ Hai)
+    start_of_week = now - timedelta(days=now.weekday())
+    # Lấy ngày cuối tuần (Chủ Nhật)
+    end_of_week = start_of_week + timedelta(days=6)
+    # Lọc các tiết học trong tuần này thuộc lớp học đã chọn
+    lessons_this_week = Lessons.objects.filter(date_time__range=[start_of_week, end_of_week], classroom=classroom)
+    # Tính điểm trung bình của các tiết học trong lớp
+    lesson_grades = lessons_this_week.aggregate(average_grade=Avg('grade'))
+    return lesson_grades['average_grade']
