@@ -257,4 +257,21 @@
     {% for message in messages %}
         <div>{{ message }}</div>
     {% endfor %}
+
+<br>
+<br>
+
+{% if selected_classroom %}
+    <h1>{{ selected_classroom.name }}</h1>
+    <h2>Thời khoá biểu cho Thứ 7:</h2>
+    <ul>
+        {% for item in schedule_7 %}
+            <li>
+                <p>Tiết: {{ item.period.period }}</p>
+                <p>Thời gian: {{ item.period.start_time|time:"HH:i" }} - {{ item.period.end_time|time:"HH:i" }}</p>
+                <p>Môn: {{ item.subject.name }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 {% endblock content %}
