@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import authenticate, login
 from .forms import *
+from django.contrib import messages
 
 
 
@@ -17,6 +18,9 @@ def teacher_register(request):
     form = SignUpForm(request.POST)
     if form.is_valid():
       form.save()
+      # Thông báo thành công sau khi đăng kí
+      messages.success(request, 'Thành công!')
+      return HttpResponseRedirect(request.path_info)
   
   teachers = Teacher.objects.all()
   context = {

@@ -65,6 +65,6 @@ class Teacher(AbstractBaseUser,PermissionsMixin):
         verbose_name = 'Teacher_User'
         verbose_name_plural = 'Teacher_Users'
     def get_full_name(self):
-        return f"{self.last_name} + {self.first_name}"
+        return f"{self.last_name} {self.first_name}"
     def __str__(self):
         return self.id
