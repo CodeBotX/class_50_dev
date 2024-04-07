@@ -47,7 +47,7 @@ class Seat(models.Model):
     row = models.PositiveIntegerField()
     column = models.PositiveIntegerField()
     def __str__(self):
-        return f"Cột {self.row}, Hàng {self.column}"
+        return f"Hàng {self.row}, Cột {self.column}"
     def is_empty(self):
         return self.student is None
     class Meta:
