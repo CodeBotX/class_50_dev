@@ -48,26 +48,25 @@
                   
                   {% endblock %} 
                 </div>
-                <div class="col-3"></div>
-                <div class="col-2">
-                  <ul class="navbar-nav ml-auto" style="display: flex; align-items: center; height: 100%;">
-                    <li class="nav-item ml-auto">
-                        {% if user.is_authenticated %}
-                            <p style="font-size:0.7em" class="ml-auto text-white font-weight-bold">{{ user.get_full_name }}</p>
-                        {% endif %}
-                    </li>
+                <div class="col-2"></div>
+                {% if user.is_authenticated %}
+                <div class="col-3">
+                  <ul class="navbar-nav ml-auto"
+                    <p class="nav-item ml-auto">
+                        {% comment %} {% if user.is_authenticated %} {% endcomment %}
+                            <a style="font-size:0.7em" class="ml-auto text-white font-weight-bold">{{ user.get_full_name }} / ID: {{ user.id }}</a>
+                        {% comment %} {% endif %} {% endcomment %}
+                    </p>
                   </ul>
                 </div>
                 <div class="col-1">
                     <ul class="navbar-nav ml-auto">
-                      </li>
                       <li class="nav-item ml-auto">
                         <a class="nav-link text-white btn btn-outline-success" style="font-size:0.7em" href="{% url 'logout' %}">Đăng xuất</a>
                       </li>
                     </ul>
-                    {% comment %} {% else %}
-                    {% endif %} {% endcomment %}
                 </div>
+                {% endif %}
               </div>
         </nav>
       
