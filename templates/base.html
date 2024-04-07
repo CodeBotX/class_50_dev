@@ -52,7 +52,13 @@
                 <div class="col-2">
                     <ul class="navbar-nav ml-auto">
                       <li class="nav-item ml-auto">
-                        <p>{{Teacher.last_name}}</p>
+                        <p>
+                          Xin Chào
+                          {% if user.is_authenticated %}
+                              <p>Email: {{ user.email }}</p>
+                              <p>Name: {{ user.get_full_name }}</p>
+                          {% endif %}
+                        </p>
                       </li>
                       </li>
                       <li class="nav-item ml-auto">
@@ -85,8 +91,9 @@
       
       <div class="container-fluid" style="margin-top: 80px;margin-bottom: 80px">
         
-        {% block content %} {% endblock content %}
+        {% block content %}
+  
+        {% endblock content %}
       </div>
-      
     </body>
 </html>

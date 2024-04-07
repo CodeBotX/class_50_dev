@@ -163,7 +163,7 @@ def summary_view (request,classroom):
             seat = form.cleaned_data['seat']
             student = form.cleaned_data['student']
             seat.assign_student(student)
-            messages.success(request, 'Thành công!')
+            # messages.success(request, 'Thành công!')
             return HttpResponseRedirect(request.path_info)
 
     else:
