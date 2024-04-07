@@ -50,11 +50,13 @@ def add_and_set_classroom(request):
             if action == 'addclassroom':
                 form_Classroom.save()
                 messages.success(request, 'Thêm lớp học thành công!')
+                return HttpResponseRedirect(request.path_info)
         elif form_Subject.is_valid():
             action = request.POST.get('action')
             if action == 'setsubject':
                 form_Subject.save()
                 messages.success(request,'Thành Công')
+                return HttpResponseRedirect(request.path_info)
     else:
         form_Classroom = ClassroomForm()
         form_Subject = ClassoomSubjectForm()
@@ -112,6 +114,7 @@ def manage_students(request):
     if request.method == 'POST' and not form.is_valid():
         # Trường hợp request.method là 'POST' nhưng form không hợp lệ
         messages.error(request, 'Có lỗi xảy ra. ID đã được sử dụng.')
+        return HttpResponseRedirect(request.path_info)
 
     return render(request, 'students.html', context)
 
@@ -125,11 +128,13 @@ def time_table (request):
             if action == 'lesson':
                 form_lessons.save()
                 messages.success(request, 'Thành Công')
+                return HttpResponseRedirect(request.path_info)
         elif form_schedules.is_valid():
             if action == 'schedule':
                 try:
                     form_schedules.save()
                     messages.success(request, 'Thêm lịch học thành công!')
+                    return HttpResponseRedirect(request.path_info)
                 except IntegrityError:
                     messages.error(request, 'Đã tồn tại!')
     else:
@@ -165,11 +170,13 @@ def timetable(request):
             if action == 'lesson':
                 form_lessons.save()
                 messages.success(request, 'Thêm lịch học thành công!')
+                return HttpResponseRedirect(request.path_info)
         elif form_schedules.is_valid():
             action = request.POST.get('action')
             if action == 'schedule':
                 form_schedules.save()
                 messages.success(request,'Thành Công')
+                return HttpResponseRedirect(request.path_info)
     else:
         form_lessons = LessonTimeForm(request.POST)
         form_schedules = ScheduleForm(request.POST)

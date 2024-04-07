@@ -15,6 +15,7 @@ from rest_framework.response import Response
 from django.db.models import Avg
 from django.utils.dateparse import parse_time
 from django.utils import timezone
+from django.http import HttpResponseRedirect
 day_names = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"]
 
 
@@ -56,25 +57,27 @@ def classroom(request, classroom):
     seats = classroom.seats.all().order_by('row', 'column') # đưa vào add lesson
     now_schedule = get_nowschedule(classroom=classroom)
     now = datetime.now()
-    now_subject = get_nowsubject(classroom=classroom)
     # Lấy thứ
     day_number = datetime.now().weekday()
     day_name = day_names[day_number]
     teacher = teacher = request.user
-
-
-    # , dayofweek=day_number, period=period
     if request.method == 'POST':
         form_addlesson = LessonForm(request.POST, teacher=teacher)
-        # Xử lý thêm bài học
+    # Xử lý thêm bài học
         if form_addlesson.is_valid():
-            lesson = form_addlesson.save(commit=False)
-            lesson.classroom = classroom
-            lesson.subject = now_schedule.subject
-            lesson.save()
-            messages.success(request, 'Thành công!')
+            if now_schedule:
+                lesson = form_addlesson.save(commit=False)
+                lesson.classroom = classroom
+                lesson.subject = now_schedule.subject
+                lesson.save()
+                messages.success(request, 'Thành công!')
+                return HttpResponseRedirect(request.path_info)
+            else:
+                messages.error(request, 'Hiện không trong giờ dạy')
+                return HttpResponseRedirect(request.path_info)
     else:
         form_addlesson = LessonForm(teacher=teacher)
+        
     context = {
         'rows': range(1, 6),
         'columns': range(1, 9),
@@ -160,7 +163,8 @@ def summary_view (request,classroom):
             seat = form.cleaned_data['seat']
             student = form.cleaned_data['student']
             seat.assign_student(student)
-            # messages.success(request, 'Thành công!')
+            messages.success(request, 'Thành công!')
+            return HttpResponseRedirect(request.path_info)
 
     else:
         form = AssignStudentForm(classroom=classroom)
