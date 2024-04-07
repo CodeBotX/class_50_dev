@@ -15,6 +15,7 @@ from rest_framework.response import Response
 from django.db.models import Avg
 from django.utils.dateparse import parse_time
 from django.utils import timezone
+from django.http import HttpResponseRedirect
 day_names = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"]
 
 
@@ -60,20 +61,23 @@ def classroom(request, classroom):
     day_number = datetime.now().weekday()
     day_name = day_names[day_number]
     teacher = teacher = request.user
-
-
-    # , dayofweek=day_number, period=period
     if request.method == 'POST':
         form_addlesson = LessonForm(request.POST, teacher=teacher)
-        # Xử lý thêm bài học
+    # Xử lý thêm bài học
         if form_addlesson.is_valid():
-            lesson = form_addlesson.save(commit=False)
-            lesson.classroom = classroom
-            lesson.subject = now_schedule.subject
-            lesson.save()
-            messages.success(request, 'Thành công!')
+            if now_schedule:
+                lesson = form_addlesson.save(commit=False)
+                lesson.classroom = classroom
+                lesson.subject = now_schedule.subject
+                lesson.save()
+                messages.success(request, 'Thành công!')
+                return HttpResponseRedirect(request.path_info)
+            else:
+                messages.error(request, 'Hiện không trong giờ dạy')
+                return HttpResponseRedirect(request.path_info)
     else:
         form_addlesson = LessonForm(teacher=teacher)
+        
     context = {
         'rows': range(1, 6),
         'columns': range(1, 9),
@@ -131,6 +135,16 @@ def get_nowschedule(classroom):
         return schedule
     else:
         return None
+def get_nowsubject(classroom):
+    dayofweek = datetime.now().weekday()
+    now = datetime.now()
+    # Truy vấn database để tìm tiết học mà thời gian hiện tại nằm giữa thời gian bắt đầu và kết thúc
+    period = LessonTime.objects.filter(start_time__lte=now, end_time__gte=now).first()
+    schedule = Schedule.objects.filter(classroom=classroom,dayofweek=dayofweek, period=period).first()
+    if schedule:
+        return schedule.subject
+    else:
+        return None
 
 
 # Giáo viên xem bảng tổng kết tuần
@@ -149,7 +163,8 @@ def summary_view (request,classroom):
             seat = form.cleaned_data['seat']
             student = form.cleaned_data['student']
             seat.assign_student(student)
-            # messages.success(request, 'Thành công!')
+            messages.success(request, 'Thành công!')
+            return HttpResponseRedirect(request.path_info)
 
     else:
         form = AssignStudentForm(classroom=classroom)
@@ -182,8 +197,8 @@ def get_lessons_week(classroom):
 # Thêm điểm cho học sinh trong khi đang học ( đang lỗi )
 def detail(request,classroom,student):
     student = get_object_or_404(Student, pk=student)
-    nowschedule = get_nowschedule(classroom=classroom)
-    subject = nowschedule.subject
+    now_schedule = get_nowschedule(classroom=classroom)
+    subject = now_schedule.subject
     if subject is None:
         messages.error(request, 'Bạn không đang trong giờ dạy!')
         return redirect('classroom', classroom=classroom)

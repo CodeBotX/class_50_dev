@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Login{% endblock title %}
+{% block title %}Đăng nhập{% endblock title %}
 
 
 {% block content %}
@@ -51,7 +51,7 @@
                       <label for="pwd" class="form-label">Password:</label>
                       {{loginForm.password}}
                     </div>
-                    <button class="btn btn-primary" type="submit" name="action" value="login">Login</button>
+                    <button class="btn btn-primary" type="submit" name="action" >Đăng nhập</button>
                   </form>
 
                 </div>
@@ -64,7 +64,7 @@
                     {% csrf_token %}
                     {{ lookupForm.student_id }}
                     <br>
-                    <button class="btn btn-primary" type="submit" name="action" value="check">Submit</button>
+                    <button class="btn btn-primary" type="submit" name="action" value="check">Tra cứu</button>
                   </form>
                 </div>
 
