@@ -53,16 +53,17 @@
                 <div class="col-3">
                   <ul class="navbar-nav ml-auto"
                     <p class="nav-item ml-auto">
-                        {% comment %} {% if user.is_authenticated %} {% endcomment %}
                             <a style="font-size:0.7em" class="ml-auto text-white font-weight-bold">{{ user.get_full_name }} / ID: {{ user.id }}</a>
-                        {% comment %} {% endif %} {% endcomment %}
                     </p>
                   </ul>
                 </div>
                 <div class="col-1">
                     <ul class="navbar-nav ml-auto">
                       <li class="nav-item ml-auto">
-                        <a class="nav-link text-white btn btn-outline-success" style="font-size:0.7em" href="{% url 'logout' %}">Đăng xuất</a>
+                        <form action="{% url 'logout' %}" method="post">
+                          {% csrf_token %}
+                          <a class="nav-link text-white btn btn-outline-success" type="submit" style="font-size:0.7em">Đăng xuất</a>
+                        </form>
                       </li>
                     </ul>
                 </div>
