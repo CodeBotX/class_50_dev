@@ -16,8 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from django.contrib.auth.views import LogoutView
-from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path('home/', include('CM.urls')),
@@ -25,5 +24,4 @@ urlpatterns = [
     path('', include('app_User.urls')),
     path('admin/', admin.site.urls),
     path('studentportal/', include('StudentPortal.urls')),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name="logout"),
 ]
