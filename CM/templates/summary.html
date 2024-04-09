@@ -229,61 +229,8 @@
     <div class="col-1"></div>   
 </div>
 
-
-{% comment %} Minh Tiến Add {% endcomment %}
-
-{% comment %} <h1>Summary View</h1>
-
-
-    <h2>Schedule</h2>
-    {% if schedule %}
-    <table>
-        <thead>
-            <tr>
-                <th>Day of Week</th>
-                <th>Period</th>
-                <th>Subject</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ schedule.get_dayofweek_display }}</td>
-                <td>{{ schedule.period }}</td>
-                <td>{{ schedule.subject }}</td>
-            </tr>
-        </tbody>
-    </table>
-    {% else %}
-    <p>No schedule available for this classroom.</p>
-    {% endif %}
-
-    <h1>Lịch học</h1>
-    <div class="lessons-container">
-        {% if lessons %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Môn học</th>
-                        <th>Thời gian bắt đầu</th>
-                        <th>Thời gian kết thúc</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for lesson in lessons %}
-                    <tr>
-                        <td>{{lesson.name}}</td>
-                        <td>{{ lesson.comment }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>Không có tiết học nào để hiển thị.</p>
-        {% endif %}
-    </div>
-
-{% comment %} Minh Tiến ADD {% endcomment %}
-{% comment %} {{avglessons}} {% endcomment %}
+<br>
+<a class="card-title text-white" style="margin-top: 1rem" href="{% url 'export_lessons_pdf' %}">Tải xuống PDF</a>
 
 
 {% endblock content %}

@@ -7,7 +7,29 @@ from django.db.models import Avg
 from datetime import datetime, timedelta
 from CM.models import Lessons
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
+
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from CM.models import Lessons
+
+def export_lessons_pdf(request):
+    lessons = Lessons.objects.all()
+    template_path = 'lessons_pdf.html'
+    context = {'lessons': lessons}
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="lessons_list.pdf"'
+
+    template = get_template(template_path)
+    html = template.render(context)
+
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
 
 @login_required(login_url='/')
 def school_view(request):

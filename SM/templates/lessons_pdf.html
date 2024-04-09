@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Danh sách Tiết học</title>
+</head>
+<body>
+    <h1>Danh sách Tiết học</h1>
+    {% for lesson in lessons %}
+        <div>
+            <h2>{{ lesson.name }}</h2>
+            <p>Giáo viên: {{ lesson.teacher.last_name }}</p>
+            <p>Phòng học: {{ lesson.classroom.name }}</p>
+            <p>Môn học: {{ lesson.subject.name }}</p>
+            <p>: {{ lesson.counter }}</p>
+            <p>: {{ lesson.grade }}</p>
+            <p>: {{ lesson.date_time }}</p>
+            <!-- Thêm thông tin bạn muốn hiển thị -->
+        </div>
+    {% endfor %}
+</body>
+</html>
