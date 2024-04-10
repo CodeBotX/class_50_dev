@@ -29,6 +29,9 @@ def export_lessons_pdf(request):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+def preview_lessons(request):
+    lessons = Lessons.objects.all()
+    return render(request, 'lessons_pdf.html', {'lessons': lessons})
 
 
 @login_required(login_url='/')
