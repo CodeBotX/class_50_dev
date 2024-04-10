@@ -198,20 +198,20 @@ def get_lessons_week(classroom):
 def detail(request,classroom,student):
     student = get_object_or_404(Student, pk=student)
     now_schedule = get_nowschedule(classroom=classroom)
-    subject = now_schedule.subject
-    if subject is None:
-        messages.error(request, 'Bạn không đang trong giờ dạy!')
-        return redirect('classroom', classroom=classroom)
+    subject = None
+    if now_schedule:
+        subject = now_schedule.subject
 
     if request.method == 'POST':
-        if subject:  # Kiểm tra lại để đảm bảo subject có tồn tại
+        if now_schedule and subject:  # Kiểm tra lại để đảm bảo subject có tồn tại
             form = MarkForm(request.POST, student=student, subject=subject)
             if form.is_valid():
                 form.save()
             else:
                 messages.error(request, "Có lỗi xảy ra, vui lòng kiểm tra lại.")
         else:
-            return redirect('classroom', classroom=classroom)
+            messages.error(request, 'Hiện không trong giờ dạy')
+            return HttpResponseRedirect(request.path_info)
     else:
         form = MarkForm(student=student, subject=subject) if subject else None
     marks = student.marks.filter(student=student,subject=subject)
@@ -222,6 +222,7 @@ def detail(request,classroom,student):
         'marks': marks
     }
     return render(request, 'details.html', context)
+
 
 
 def get_avglessons(classroom):  
