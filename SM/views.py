@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,get_object_or_404,redirect
 from .models import *
 from .forms import *
 from django.contrib import messages
@@ -7,31 +7,10 @@ from django.db.models import Avg
 from datetime import datetime, timedelta
 from CM.models import Lessons
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect,HttpResponse
-
-from django.template.loader import get_template
-from xhtml2pdf import pisa
+from django.http import HttpResponseRedirect
 from CM.models import Lessons
 
-def export_lessons_pdf(request):
-    lessons = Lessons.objects.all()
-    template_path = 'lessons_pdf.html'
-    context = {'lessons': lessons}
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="lessons_list.pdf"'
 
-    template = get_template(template_path)
-    html = template.render(context)
-
-    pisa_status = pisa.CreatePDF(
-       html, dest=response)
-    if pisa_status.err:
-       return HttpResponse('We had some errors <pre>' + html + '</pre>')
-    return response
-
-def preview_lessons(request):
-    lessons = Lessons.objects.all()
-    return render(request, 'lessons_pdf.html', {'lessons': lessons})
 
 
 @login_required(login_url='/')
