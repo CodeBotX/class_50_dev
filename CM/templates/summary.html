@@ -23,9 +23,9 @@
         <div class="row">
             <div class="col-4">
                 <div class="card" style="margin-top: 1rem; margin-bottom: 1rem; height:35rem">
-                    <h2 class="card-title text-center">Thông tin lớp</h2>
+                    <h2 class="card-title text-center" style="margin-top:0.5rem">Thông tin lớp</h2>
                     <div class="card-body">   
-                        <div style="margin-top: 2%; margin-bottom: 2%">
+                        <div style="margin-top: 2%;">
                             <table class="table " >
                                 <tbody>
                                 <tr>
@@ -47,8 +47,8 @@
                 </div>
             </div>
             <div class="col-8">
-                <div class="card" style="margin-top: 1rem; margin-bottom: 1rem; height:35rem">
-                    <h2 class="card-title">Sơ Đồ Lớp</h2>
+                <div class="card" style="margin-top: 1rem; height:35rem">
+                    <h2 class="card-title" style="margin-top:0.5rem; margin-left:0.5em">Sơ Đồ Lớp</h2>
                     
                     <div class="card-body">
                         <div>
@@ -192,9 +192,17 @@
                 </form>
             </div>
         </div> {% endcomment %}
-        <div class="card" style="background-color: #07478D; margin-top:2rem">
+        <div class="card" style="background-color: #07478D; margin-top:1rem">
             <div class="card-body">
-                    <h2 class="card-title text-white" style="margin-top: 1rem;">Thông tin tuần học</h2>
+                    <div class="row">
+                        <div class="col-6">
+                            <h2 class="card-title text-white" style="margin-top: 1rem;">Thông tin tuần học</h2>
+                        </div>
+                        <div class="col-6 text-right">
+                            <a class="btn card-title text-white" style="margin-top:1rem; border-radius: 5px; background-image: linear-gradient(to right, #126DBC, #8C52FF);border: none;" href="{% url 'preview_lessons' %}">Tải xuống PDF</a>
+                        </div>
+
+                    </div>
                     <table class="table">
                         <thead>
                             <tr>
@@ -228,9 +236,6 @@
     </div> 
     <div class="col-1"></div>   
 </div>
-
-<br>
-<a class="card-title text-white" style="margin-top: 1rem" href="{% url 'preview_lessons' %}">Tải xuống PDF</a>
 
 
 {% endblock content %}
