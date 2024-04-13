@@ -8,6 +8,7 @@ urlpatterns = [
     path('<str:classroom_name>/schedule_api', ClassroomScheduleAPIView.as_view(), name='classroom_schedule_api'),
     path('<str:classroom>/', views.classroom, name= 'classroom'),
     path('<str:classroom>/summary/', views.summary_view, name= 'summary'), 
+    path('<str:classroom>/preview/', preview_lessons, name='preview_lessons'),
     path('<str:classroom>/<int:student>/', views.detail, name= 'details'),
 
 ]

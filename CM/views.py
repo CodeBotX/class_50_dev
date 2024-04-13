@@ -36,6 +36,16 @@ def home(request):
     return render(request, 'home.html', {'classrooms': classrooms})
 
 
+def preview_lessons(request,classroom):
+    classroom = get_object_or_404(Classroom, name=classroom)
+    lessons = get_lessons_week(classroom=classroom)
+    context={
+        'lessons': lessons,
+        'classroom':classroom
+    }
+    return render(request, 'lessons_pdf.html', context)
+
+
 # Thêm Điểm
 def add_mark(request):
     if request.method == 'POST':
