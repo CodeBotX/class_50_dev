@@ -119,7 +119,7 @@
                         <td>{{ lesson.teacher.get_full_name }}</td>
                         <td>{{lesson.name}}</td>
                         <td>{{lesson.counter}}</td>
-                        <td>{{lesson.grade }}</td>
+                        <td>{{ lesson.get_grade_display }}</td>
                         <td>{{lesson.comment}}</td>
                     </tr>
                     {% endfor %}
