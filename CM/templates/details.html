@@ -136,6 +136,14 @@
     </div>
 </div>
 
+<h1>Tiến Thêm</h1>
+{% for mark in marks %}
+    <tr>
+        <th scope="row">Điểm</th>
+        <td> {{ mark.scores }}</td>
+    </tr>
+{% endfor %}
+
 <script>
     // Kiểm tra xem có thông báo nào không
     {% if messages %}

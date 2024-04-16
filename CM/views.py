@@ -16,6 +16,7 @@ from django.db.models import Avg
 from django.utils.dateparse import parse_time
 from django.utils import timezone
 from django.http import HttpResponseRedirect
+from django.utils import translation
 day_names = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"]
 
 
@@ -37,6 +38,7 @@ def home(request):
 
 
 def preview_lessons(request,classroom):
+    translation.activate('v')
     classroom = get_object_or_404(Classroom, name=classroom)
     lessons = get_lessons_week(classroom=classroom)
     context={
@@ -204,7 +206,7 @@ def get_lessons_week(classroom):
     return lessons_week
 
 
-# Thêm điểm cho học sinh trong khi đang học ( đang lỗi )
+# Thêm điểm cho học sinh trong khi đang học 
 def detail(request,classroom,student):
     student = get_object_or_404(Student, pk=student)
     now_schedule = get_nowschedule(classroom=classroom)
