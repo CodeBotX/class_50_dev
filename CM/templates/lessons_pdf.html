@@ -114,7 +114,7 @@
                 <tbody>
                     {% for lesson in lessons %}
                     <tr>
-                        <th scope="row">{{lesson.date_time|date:"l" }},{{lesson.date_time }}</th>
+                        <th scope="row">{{lesson.date_time|date:"l" }}</th>
                         <td>{{lesson.subject.name}}</td>
                         <td>{{ lesson.teacher.get_full_name }}</td>
                         <td>{{lesson.name}}</td>

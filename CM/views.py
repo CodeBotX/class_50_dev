@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.template import loader
+from django.utils import translation
 from .forms import *
 from .models import *
 from django.shortcuts import get_object_or_404, render
@@ -206,6 +207,7 @@ def get_lessons_week(classroom):
 
 # Thêm điểm cho học sinh trong khi đang học ( đang lỗi )
 def detail(request,classroom,student):
+    translation.activate('us')
     student = get_object_or_404(Student, pk=student)
     now_schedule = get_nowschedule(classroom=classroom)
     subject = None
