@@ -62,3 +62,17 @@ class LoginForm(forms.Form):
 
 class StudentLookupForm(forms.Form):
     student_id = forms.IntegerField(label='Student ID', required=True, widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter your ID'}))
+    
+
+
+
+class TeacherEditForm(forms.ModelForm):
+    class Meta:
+        model = Teacher
+        fields = ['email', 'last_name', 'first_name']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].initial = self.instance.email
+        self.fields['last_name'].initial = self.instance.last_name
+        self.fields['first_name'].initial = self.instance.first_name

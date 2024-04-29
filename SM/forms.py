@@ -43,3 +43,14 @@ class SchoolYearForm(forms.ModelForm):
 
 class SemesterSelectionForm(forms.Form):
     semester = forms.ModelChoiceField(queryset=Semester.objects.all(), empty_label="Chọn Kì Học")
+    
+    
+class StudentEditForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['name', 'classroom']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].initial = self.instance.name
+        self.fields['classroom'].initial = self.instance.classroom
