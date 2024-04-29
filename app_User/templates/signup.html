@@ -122,7 +122,7 @@
                               {%for teacher in teachers %}
                               <tr>
                                   <td >{{teacher.id}}</td>
-                                  <td>{{teacher.first_name}} {{teacher.last_name}}</td>
+                                  <td><a href="{% url 'edit_profile'%}">{{teacher.first_name}} {{teacher.last_name}}</a></td>
                                   <td>{{teacher.email}}</td>
                               </tr>
                               {% endfor %}

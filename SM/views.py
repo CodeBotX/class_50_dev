@@ -10,7 +10,18 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from CM.models import Lessons
 
+# Thay đổi thông tin học sinh
+def edit_student(request, student_id):
+    student = get_object_or_404(Student, pk=student_id)  # Lấy đối tượng Student dựa trên ID
+    if request.method == 'POST':
+        form = StudentEditForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('smstudent')  # Thay 'some_view_to_redirect' bằng tên view mà bạn muốn chuyển hướng sau khi cập nhật thành công
+    else:
+        form = StudentEditForm(instance=student)  # Khởi tạo form với thông tin học sinh sẵn có
 
+    return render(request, 'edit/editStudent.html', {'form': form})
 
 
 @login_required(login_url='/')

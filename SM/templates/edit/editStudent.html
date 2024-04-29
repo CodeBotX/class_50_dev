@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Thay đổi thông tin học sinh{% endblock title %}
+
+{% block Nav %}
+<div class="dropdown">
+    <button type="button" class="btn btn-outline-primary text-white dropdown-toggle" data-bs-toggle="dropdown">
+        Chuyển hướng
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{%url 'smtimetable'%}">Quản lý TKB</a></li>
+        <li><a class="dropdown-item" href="{%url 'smstudent'%}">Quản lý học sinh</a></li>
+        <li><a class="dropdown-item" href="{%url 'SignUp'%}">Quản lý giáo viên</a></li>
+        <li><a class="dropdown-item" href="{%url 'smclassroom'%}">Quản lý lớp học</a></li>
+        <li><a class="dropdown-item" href="{%url 'smsubject'%}">Quản lý môn học</a></li>
+        <li><a class="dropdown-item" href="{%url 'rankclassrooms'%}">Xếp hạng lớp học</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{%url 'School'%}">Quản trị</a></li>
+        <li><a class="dropdown-item" href="{%url 'Home'%}">Trang chủ</a></li>
+    </ul>
+</div>
+{% endblock Nav %}
+
+{% block content %}
+  <div class="row" style="margin-top: 10rem">
+    <div class="col-2"></div>
+    <div class="col-8">
+      <div class="card" style="background-color: #07478D">
+          <div class="card-body">
+              <h2 class="card-title text-white" style="margin-top: 2%;">Thay đổi thông tin học sinh</h2>
+              <form method="POST">
+                  {% csrf_token %}
+                  <table class="table">
+                      <thead>
+                      <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Nhập thông tin</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <th scope="row">Học sinh</th>
+                              <td>{{form.name }}</td>
+                          </tr>
+                          <tr>
+                              <th scope="row">ID</th>
+                              <td>{{form.classroom }}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <button id="openModalBtn" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Lưu thay đổi</button>
+              </form> 
+          </div>
+      </div>
+    </div>
+    <div class="col-2"></div>
+  </div>
+
+{% endblock %}

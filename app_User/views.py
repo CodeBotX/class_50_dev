@@ -6,7 +6,7 @@ from django.template import loader
 from django.contrib.auth import authenticate, login
 from .forms import *
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -54,4 +54,14 @@ def teacher_login_home(request):
   
   
   
-      
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = TeacherEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('SignUp')  
+    else:
+        form = TeacherEditForm(instance=request.user)
+
+    return render(request, 'teacherEdit.html', {'form': form})

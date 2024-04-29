@@ -14,7 +14,7 @@ from django.contrib import messages
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Avg
-from django.utils.dateparse import parse_time
+from django.utils.dateparse import parse_time 
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.utils import translation
@@ -57,14 +57,13 @@ def preview_lessons(request,classroom):
         selected_classroom = Classroom.objects.filter(name=classroom_name).first()
         if selected_classroom:
             # schedule = Schedule.objects.filter(classroom=selected_classroom)
-            lesson = Lessons.objects.filter(classroom=selected_classroom).order_by('dayofweek', 'period__start_time')
-            lesson_2 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=0).order_by('period__start_time')
-            lesson_3 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=1).order_by('period__start_time')
-            lesson_4 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=2).order_by('period__start_time')
-            lesson_5 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=3).order_by('period__start_time')
-            lesson_6 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=4).order_by('period__start_time')
-            lesson_7 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=5).order_by('period__start_time')
-            lesson_8 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=6).order_by('period__start_time')
+            lesson_2 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=0)
+            lesson_3 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=1)
+            lesson_4 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=2)
+            lesson_5 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=3)
+            lesson_6 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=4)
+            lesson_7 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=5)
+            lesson_8 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=6)
     context = {
         'lesson_2': lesson_2,
         'lesson_3': lesson_3,
