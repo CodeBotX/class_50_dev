@@ -51,23 +51,6 @@
                 <div class="col-2"></div>
                 {% if user.is_authenticated %}
                 <div class="col-4">
-                  {% comment %} <div class="dropdown">
-                    <ul class="navbar-nav ml-auto">
-                      <a class="nav-item ml-auto">
-                        <span style="font-size:0.8em" type="button" class="ml-auto text-white font-weight-bold dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">{{ user.get_full_name }} / ID: {{ user.id }}</span>
-                      </a>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{% url 'edit_profile'%}">Thay đổi thông tin</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li class="dropdown-item">
-                          <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <a class="dropdown-item" type="submit">Đăng xuất</a>
-                          </form>
-                        </li>
-                      </ul>
-                    </ul>
-                  </div> {% endcomment %}
                   <div class="dropdown  d-flex justify-content-end">
                     <a type="button" class="btn btn-link text-white dropdown-toggle" data-bs-toggle="dropdown">
                       {{ user.get_full_name }} / ID: {{ user.id }}
@@ -78,7 +61,7 @@
                         <li>
                           <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
-                            <a class="dropdown-item" type="submit">Đăng xuất</a>
+                            <button class="dropdown-item" type="submit">Đăng xuất</button>
                           </form>
                         </li>
                     </ul>
