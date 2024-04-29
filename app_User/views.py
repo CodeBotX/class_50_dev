@@ -64,4 +64,4 @@ def edit_profile(request):
     else:
         form = TeacherEditForm(instance=request.user)
 
-    return render(request, 'teacherEdit.html', {'form': form})
+    return render(request, 'userprofile/teacherEdit.html', {'form': form})
