@@ -50,22 +50,39 @@
                 </div>
                 <div class="col-2"></div>
                 {% if user.is_authenticated %}
-                <div class="col-3">
-                  <ul class="navbar-nav ml-auto"
-                    <p class="nav-item ml-auto">
-                            <a style="font-size:0.7em" class="ml-auto text-white font-weight-bold">{{ user.get_full_name }} / ID: {{ user.id }}</a>
-                    </p>
-                  </ul>
-                </div>
-                <div class="col-1">
+                <div class="col-4">
+                  {% comment %} <div class="dropdown">
                     <ul class="navbar-nav ml-auto">
-                      <li class="nav-item ml-auto">
-                        <form action="{% url 'logout' %}" method="post">
-                          {% csrf_token %}
-                          <button class="nav-link text-white btn btn-outline-success font-weight-bold" type="submit" style="font-size:0.7em">Đăng xuất</button>
-                        </form>
-                      </li>
+                      <a class="nav-item ml-auto">
+                        <span style="font-size:0.8em" type="button" class="ml-auto text-white font-weight-bold dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">{{ user.get_full_name }} / ID: {{ user.id }}</span>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'edit_profile'%}">Thay đổi thông tin</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li class="dropdown-item">
+                          <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <a class="dropdown-item" type="submit">Đăng xuất</a>
+                          </form>
+                        </li>
+                      </ul>
                     </ul>
+                  </div> {% endcomment %}
+                  <div class="dropdown  d-flex justify-content-end">
+                    <a type="button" class="btn btn-link text-white dropdown-toggle" data-bs-toggle="dropdown">
+                      {{ user.get_full_name }} / ID: {{ user.id }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{%url 'edit_profile'%}">Sửa thông tin</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                          <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <a class="dropdown-item" type="submit">Đăng xuất</a>
+                          </form>
+                        </li>
+                    </ul>
+                  </div>
                 </div>
                 {% endif %}
               </div>
