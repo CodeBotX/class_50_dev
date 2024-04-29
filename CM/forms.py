@@ -11,7 +11,6 @@ from django.core.exceptions import ValidationError
 from .models import *
 from SM.models import Mark
 
-#Nhập điểm
 class MarkForm(forms.ModelForm):
     class Meta:
         model = Mark

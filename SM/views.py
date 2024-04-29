@@ -165,7 +165,7 @@ def show_timetable(request):
 
 # Đang sử dụng
 def timetable(request):
-
+    classroom_name = request.GET.get('classroom_name')
     if request.method == 'POST':
         form_lessons = LessonTimeForm(request.POST)
         form_schedules = ScheduleForm(request.POST)
@@ -174,18 +174,18 @@ def timetable(request):
             if action == 'lesson':
                 form_lessons.save()
                 messages.success(request, 'Thêm lịch học thành công!')
-                return HttpResponseRedirect(request.path_info)
+                return HttpResponseRedirect(f"{request.path_info}?classroom_name={classroom_name}")
         elif form_schedules.is_valid():
             action = request.POST.get('action')
             if action == 'schedule':
                 form_schedules.save()
                 messages.success(request,'Thành Công')
-                return HttpResponseRedirect(request.path_info)
+                return HttpResponseRedirect(f"{request.path_info}?classroom_name={classroom_name}")
     else:
         form_lessons = LessonTimeForm(request.POST)
         form_schedules = ScheduleForm(request.POST)
     classrooms = Classroom.objects.all()
-    classroom_name = request.GET.get('classroom_name')
+    # classroom_name = request.GET.get('classroom_name')
     schedules = None
     schedules_2= None
     schedules_3 = None

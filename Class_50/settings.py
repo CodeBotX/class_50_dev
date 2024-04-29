@@ -82,14 +82,7 @@ WSGI_APPLICATION = 'Class_50.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'Class40',
-    #     'USER': 'minhtien',
-    #     'PASSWORD': 'minhtien',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432', 
-    # }
+
     'default': {
     'ENGINE': 'django.db.backends.sqlite3',
     'NAME': BASE_DIR / 'db.sqlite3',
@@ -147,4 +140,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'app_User.Teacher'
 LOGIN_URL = 'Login'
 
-LANGUAGE_CODE='vi'

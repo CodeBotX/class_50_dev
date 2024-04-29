@@ -17,6 +17,7 @@ from django.db.models import Avg
 from django.utils.dateparse import parse_time
 from django.utils import timezone
 from django.http import HttpResponseRedirect
+from django.utils import translation
 day_names = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"]
 
 
@@ -38,12 +39,44 @@ def home(request):
 
 
 def preview_lessons(request,classroom):
-    classroom = get_object_or_404(Classroom, name=classroom)
-    lessons = get_lessons_week(classroom=classroom)
-    context={
-        'lessons': lessons,
-        'classroom':classroom
+    translation.activate('v')
+    classroom_name = get_object_or_404(Classroom, name=classroom)
+
+    #
+    lesson = None
+    lesson_2= None
+    lesson_3 = None
+    lesson_4 = None
+    lesson_5 = None
+    lesson_6 = None
+    lesson_7 = None
+    lesson_8 = None
+    selected_classroom = None
+
+    if classroom_name:
+        selected_classroom = Classroom.objects.filter(name=classroom_name).first()
+        if selected_classroom:
+            # schedule = Schedule.objects.filter(classroom=selected_classroom)
+            lesson = Lessons.objects.filter(classroom=selected_classroom).order_by('dayofweek', 'period__start_time')
+            lesson_2 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=0).order_by('period__start_time')
+            lesson_3 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=1).order_by('period__start_time')
+            lesson_4 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=2).order_by('period__start_time')
+            lesson_5 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=3).order_by('period__start_time')
+            lesson_6 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=4).order_by('period__start_time')
+            lesson_7 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=5).order_by('period__start_time')
+            lesson_8 = Lessons.objects.filter(classroom=selected_classroom, dayofweek=6).order_by('period__start_time')
+    context = {
+        'lesson_2': lesson_2,
+        'lesson_3': lesson_3,
+        'lesson_4': lesson_4,
+        'lesson_5': lesson_5,
+        'lesson_6': lesson_6,
+        'lesson_7': lesson_7,
+        'lesson_8': lesson_8,
+        'classroom': classroom_name,
+        
     }
+    #
     return render(request, 'lessons_pdf.html', context)
 
 
@@ -205,7 +238,7 @@ def get_lessons_week(classroom):
     return lessons_week
 
 
-# Thêm điểm cho học sinh trong khi đang học ( đang lỗi )
+# Thêm điểm cho học sinh trong khi đang học 
 def detail(request,classroom,student):
     translation.activate('us')
     student = get_object_or_404(Student, pk=student)
