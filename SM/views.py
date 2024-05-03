@@ -9,14 +9,22 @@ from CM.models import Lessons
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from CM.models import Lessons
+from django.db import transaction
 
 # Thay đổi thông tin học sinh
 def edit_student(request, student_id):
     student = get_object_or_404(Student, pk=student_id)  # Lấy đối tượng Student dựa trên ID
+    old_classroom = student.classroom 
     if request.method == 'POST':
         form = StudentEditForm(request.POST, instance=student)
         if form.is_valid():
-            form.save()
+            with transaction.atomic():
+                student = form.save(commit=False)  # Lưu student tạm thời
+                new_classroom = form.cleaned_data['classroom']  # Lấy thông tin lớp học mới từ form
+                if old_classroom != new_classroom:
+                    # Nếu lớp học thay đổi, gán trường student trong chỗ ngồi của học sinh là null
+                    student.seat.update(student=None)
+                student = form.save()  # Lưu thay đổi cuối cùng vào database
             return redirect('smstudent')  # Thay 'some_view_to_redirect' bằng tên view mà bạn muốn chuyển hướng sau khi cập nhật thành công
     else:
         form = StudentEditForm(instance=student)  # Khởi tạo form với thông tin học sinh sẵn có
