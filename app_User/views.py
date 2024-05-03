@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 
 
-# 
+# Đăng ký giáo viên
 def teacher_register(request):
   form = SignUpForm()
   template = loader.get_template('signup.html')
@@ -30,7 +30,7 @@ def teacher_register(request):
   return HttpResponse(template.render(context,request))
 
 
-
+#Giáo viên đăng nhập
 def teacher_login_home(request):
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
@@ -64,4 +64,4 @@ def edit_profile(request):
     else:
         form = TeacherEditForm(instance=request.user)
 
-    return render(request, 'userprofile/teacherEdit.html', {'form': form})
+    return render(request, 'teacherEdit.html', {'form': form})

@@ -34,6 +34,13 @@
                 width: 100vw;
                 overflow-x: hidden;
             }
+            .timetable-row {
+              border-bottom: 1px solid #dee2e6;
+            }
+        
+            .timetable-cell {
+              padding: 10px 0; /* Cung cấp một khoảng cách giữa các tiết */
+            }
         </style>
     </head>
     <body style="background-color: #2385C4;">
@@ -50,22 +57,22 @@
                 </div>
                 <div class="col-2"></div>
                 {% if user.is_authenticated %}
-                <div class="col-3">
-                  <ul class="navbar-nav ml-auto"
-                    <p class="nav-item ml-auto">
-                            <a style="font-size:0.7em" class="ml-auto text-white font-weight-bold">{{ user.get_full_name }} / ID: {{ user.id }}</a>
-                    </p>
-                  </ul>
-                </div>
-                <div class="col-1">
-                    <ul class="navbar-nav ml-auto">
-                      <li class="nav-item ml-auto">
-                        <form action="{% url 'logout' %}" method="post">
-                          {% csrf_token %}
-                          <button class="nav-link text-white btn btn-outline-success font-weight-bold" type="submit" style="font-size:0.7em">Đăng xuất</button>
-                        </form>
-                      </li>
+                <div class="col-4">
+                  <div class="dropdown  d-flex justify-content-end">
+                    <a type="button" class="btn btn-link text-white dropdown-toggle" data-bs-toggle="dropdown">
+                      {{ user.get_full_name }} / ID: {{ user.id }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{%url 'edit_profile'%}">Sửa thông tin</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                          <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button class="dropdown-item" type="submit">Đăng xuất</button>
+                          </form>
+                        </li>
                     </ul>
+                  </div>
                 </div>
                 {% endif %}
               </div>

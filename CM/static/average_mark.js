@@ -25,3 +25,4 @@ if (averageMark !== null) {
 } else {
     averageMarkElement.innerText = "N/A";
 }
+
