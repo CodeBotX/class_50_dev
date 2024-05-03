@@ -41,37 +41,54 @@ def home(request):
 def preview_lessons(request,classroom):
     translation.activate('v')
     classroom_name = get_object_or_404(Classroom, name=classroom)
-
     #
-    lesson = None
-    lesson_2= None
-    lesson_3 = None
-    lesson_4 = None
-    lesson_5 = None
-    lesson_6 = None
-    lesson_7 = None
-    lesson_8 = None
-    selected_classroom = None
 
+    # lesson_2= None
+    # lesson_3 = None
+    # lesson_4 = None
+    # lesson_5 = None
+    # lesson_6 = None
+    # lesson_7 = None
+    # lesson_8 = None
+    # selected_classroom = None
+    # if classroom_name:
+    #     selected_classroom = Classroom.objects.filter(name=classroom_name).first()
+    #     if selected_classroom:
+    #         # schedule = Schedule.objects.filter(classroom=selected_classroom)
+    #         lesson_2 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=0)
+    #         lesson_3 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=1)
+    #         lesson_4 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=2)
+    #         lesson_5 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=3)
+    #         lesson_6 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=4)
+    #         lesson_7 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=5)
+    #         lesson_8 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=6)
+
+    # context = {
+    #     'lesson_2': lesson_2,
+    #     'lesson_3': lesson_3,
+    #     'lesson_4': lesson_4,
+    #     'lesson_5': lesson_5,
+    #     'lesson_6': lesson_6,
+    #     'lesson_7': lesson_7,
+    #     'lesson_8': lesson_8,
+    #     'classroom': classroom_name,
+        
+    # }
+    
+    
     if classroom_name:
-        selected_classroom = Classroom.objects.filter(name=classroom_name).first()
-        if selected_classroom:
-            # schedule = Schedule.objects.filter(classroom=selected_classroom)
-            lesson_2 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=0)
-            lesson_3 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=1)
-            lesson_4 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=2)
-            lesson_5 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=3)
-            lesson_6 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=4)
-            lesson_7 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=5)
-            lesson_8 = Lessons.objects.filter(classroom=selected_classroom, date_time__week_day=6)
+        lessons_week = get_lessons_week(classroom_name)
+        lessons_by_day = {i: lessons_week.filter(date_time__week_day=i) for i in range(7)}
+
+
     context = {
-        'lesson_2': lesson_2,
-        'lesson_3': lesson_3,
-        'lesson_4': lesson_4,
-        'lesson_5': lesson_5,
-        'lesson_6': lesson_6,
-        'lesson_7': lesson_7,
-        'lesson_8': lesson_8,
+        'lesson_2': lessons_by_day.get(2),
+        'lesson_3': lessons_by_day.get(3),
+        'lesson_4': lessons_by_day.get(4),
+        'lesson_5': lessons_by_day.get(5),
+        'lesson_6': lessons_by_day.get(6),
+        'lesson_7': lessons_by_day.get(7),
+        'lesson_8': lessons_by_day.get(8),
         'classroom': classroom_name,
         
     }
