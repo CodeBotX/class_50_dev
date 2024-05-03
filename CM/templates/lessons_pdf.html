@@ -98,7 +98,7 @@
 
         
         <div style="margin-top:1%">   
-            <table class="table table-bordered table-striped custom-table">
+            <table class="table table-bordered custom-table">
                 <thead>
                     <tr>
                         <th scope="col">Thời gian</th>
@@ -112,17 +112,335 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for lesson in lessons %}
                     <tr>
-                        <th scope="row">{{lesson.date_time|date:"l" }}</th>
+                        <th scope="row">Thứ Hai</th>
+                        {% comment %} {% for lesson in lesson_2 %}
                         <td>{{lesson.subject.name}}</td>
                         <td>{{ lesson.teacher.get_full_name }}</td>
                         <td>{{lesson.name}}</td>
                         <td>{{lesson.counter}}</td>
                         <td>{{ lesson.get_grade_display }}</td>
-                        <td>{{lesson.comment}}</td>
+                        <td>{{lesson.comment}}</td> {% endcomment %}
+                        <td>
+                            {% for lesson in lesson_2 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.subject.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_2 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.teacher.get_full_name }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_2 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_2 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.counter}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_2 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.get_grade_display }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_2 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.comment}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
                     </tr>
-                    {% endfor %}
+                    {% comment %} {% endfor %} {% endcomment %}
+
+                    <tr>
+                        <th scope="row">Thứ Ba</th>
+                        <td>
+                            {% for lesson in lesson_3 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.subject.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_3 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.teacher.get_full_name }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_3 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_3 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.counter}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_3 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.get_grade_display }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_3 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.comment}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Thứ Tư</th>
+                        <td>
+                            {% for lesson in lesson_4 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.subject.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_4 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.teacher.get_full_name }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_4 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_4 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.counter}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_4 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.get_grade_display }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_4 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.comment}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Thứ Năm</th>
+                        <td>
+                            {% for lesson in lesson_5 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.subject.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_5 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.teacher.get_full_name }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_5 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_5 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.counter}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_5 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.get_grade_display }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_5 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.comment}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Thứ Sáu</th>
+                        <td>
+                            {% for lesson in lesson_6 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.subject.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_6 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.teacher.get_full_name }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_6 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_6 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.counter}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_6 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.get_grade_display }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_6 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.comment}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Thứ Bảy</th>
+                        <td>
+                            {% for lesson in lesson_7 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.subject.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_7 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.teacher.get_full_name }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_7 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_7 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.counter}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_7 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.get_grade_display }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_7 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.comment}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Chủ nhật</th>
+                        <td>
+                            {% for lesson in lesson_8 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.subject.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_8 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.teacher.get_full_name }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_8 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.name}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_8 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.counter}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_8 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{ lesson.get_grade_display }}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for lesson in lesson_8 %}
+                            <div class="timetable-row">
+                                <div class="timetable-cell">{{lesson.comment}}</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
